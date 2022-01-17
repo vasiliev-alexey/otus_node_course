@@ -24,7 +24,7 @@ git clone git@github.com:vasiliev-alexey/otus_node_course.git
 2.  Установить зависимости
 
 ```shell
-npm i
+pnpm i
 ```
 
 3. Запустить
