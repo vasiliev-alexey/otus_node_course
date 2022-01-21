@@ -4,8 +4,6 @@ import { NodeItem } from "../types";
 import * as Path from "path";
 
 export default async function walk(directory: string, level: number) {
-  //let fileList: string[] = [];
-
   const rootItem: NodeItem = {
     name: Path.basename(directory),
     level: level,
@@ -27,12 +25,9 @@ export default async function walk(directory: string, level: number) {
 
     const p = path.join(directory, file);
     if ((await fs.stat(p)).isDirectory()) {
-      // fileList = [...fileList, ...(await walk(p, curLevel))];
-
       const dirItem = await walk(p, curLevel);
       rootItem.items.push(dirItem);
     } else {
-      // fileList.push(p);
       delete item.items;
       rootItem.items.push(item);
     }
