@@ -6,7 +6,7 @@
 **/.eslintcache
 **/coverage
 **/dist
-**/env
+**/.env
 **/*.tgz
 
 **/data/**
