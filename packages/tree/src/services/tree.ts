@@ -1,37 +1,20 @@
-import fs from "fs/promises";
-import path from "path";
-import { NodeItem } from "../types";
-import * as Path from "path";
+import { program } from "commander";
+import pkg from "../../package.json";
+import walk from "./walk";
+import Path from "path";
+import { printer } from "./printer";
 
-export default async function walk(directory: string, level: number) {
-  const rootItem: NodeItem = {
-    name: Path.basename(directory),
-    level: level,
-    items: [],
-  };
-  const curLevel = level - 1;
-  if (curLevel === 0) {
-    return rootItem;
-  }
+const appName = pkg.name;
 
-  const files = await fs.readdir(directory);
+program
+  .description(pkg.description)
+  .name(appName)
+  .version(pkg.version)
+  .argument("<root directory>", "root directory")
+  .option("-d, --depth <command>", "structure display depth", "2")
+  .action(async (root, options) => {
+    const files = await walk(Path.normalize(root), options.depth);
+    printer(files);
+  });
 
-  for (const file of files) {
-    const item: NodeItem = {
-      name: Path.basename(file),
-      level: curLevel,
-      items: [],
-    };
-
-    const p = path.join(directory, file);
-    if ((await fs.stat(p)).isDirectory()) {
-      const dirItem = await walk(p, curLevel);
-      rootItem.items.push(dirItem);
-    } else {
-      delete item.items;
-      rootItem.items.push(item);
-    }
-  }
-
-  return rootItem;
-}
+export default program;
