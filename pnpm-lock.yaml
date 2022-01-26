@@ -46,18 +46,23 @@ importers:
     specifiers:
       '@types/mock-fs': ^4.13.1
       commander: ^8.3.0
-      memfs: ^3.4.1
       mock-fs: ^5.1.2
-      readdirp: ^3.6.0
-      unionfs: ^4.4.0
     dependencies:
       commander: 8.3.0
     devDependencies:
       '@types/mock-fs': 4.13.1
-      memfs: 3.4.1
       mock-fs: 5.1.2
-      readdirp: 3.6.0
-      unionfs: 4.4.0
+
+  packages/tree/dist:
+    specifiers:
+      '@types/mock-fs': ^4.13.1
+      commander: ^8.3.0
+      mock-fs: ^5.1.2
+    dependencies:
+      commander: 8.3.0
+    devDependencies:
+      '@types/mock-fs': 4.13.1
+      mock-fs: 5.1.2
 
 packages:
 
@@ -2797,10 +2802,6 @@ packages:
       mime-types: 2.1.34
     dev: true
 
-  /fs-monkey/1.0.3:
-    resolution: {integrity: sha512-cybjIfiiE+pTWicSCLFHSrXZ6EilF30oh91FDP9S2B051prEa7QWfrVTQm10/dDpswBDXZugPa1Ogu8Yh+HV0Q==}
-    dev: true
-
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
     dev: true
@@ -3919,13 +3920,6 @@ packages:
       tmpl: 1.0.5
     dev: true
 
-  /memfs/3.4.1:
-    resolution: {integrity: sha512-1c9VPVvW5P7I85c35zAdEr1TD5+F11IToIHIlrVIcflfnzPkJa0ZoYEoEdYDP8KgPFoSZ/opDrUsAoZWym3mtw==}
-    engines: {node: '>= 4.0.0'}
-    dependencies:
-      fs-monkey: 1.0.3
-    dev: true
-
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
     dev: true
@@ -4234,13 +4228,6 @@ packages:
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
-    dev: true
-
-  /readdirp/3.6.0:
-    resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
-    engines: {node: '>=8.10.0'}
-    dependencies:
-      picomatch: 2.3.1
     dev: true
 
   /regenerate-unicode-properties/9.0.0:
@@ -4835,12 +4822,6 @@ packages:
   /unicode-property-aliases-ecmascript/2.0.0:
     resolution: {integrity: sha512-5Zfuy9q/DFr4tfO7ZPeVXb1aPoeQSdeFMLpYuFebehDAhbuevLs5yxSZmIFN1tP5F9Wl4IpJrYojg85/zgyZHQ==}
     engines: {node: '>=4'}
-    dev: true
-
-  /unionfs/4.4.0:
-    resolution: {integrity: sha512-N+TuJHJ3PjmzIRCE1d2N3VN4qg/P78eh/nxzwHnzpg3W2Mvf8Wvi7J1mvv6eNkb8neUeSdFSQsKna0eXVyF4+w==}
-    dependencies:
-      fs-monkey: 1.0.3
     dev: true
 
   /universalify/0.1.2:
