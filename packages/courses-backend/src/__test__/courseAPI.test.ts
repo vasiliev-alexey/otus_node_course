@@ -2,6 +2,7 @@ import { Course } from "@course/common";
 import { faker } from "@faker-js/faker";
 import Courses from "@models/Course";
 import * as HTTP from "http";
+import { StatusCodes } from "http-status-codes";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { nanoid } from "nanoid";
@@ -64,12 +65,18 @@ describe("GET /course", () => {
 
   it("save course api by post request", async () => {
     testLogger.debug("test req post");
+
+    const fakeCourseName = faker.company.companyName();
+
     await request(app)
       .post("/course")
-      .send({ title: "title" })
+      .send({ title: fakeCourseName })
+      .expect(StatusCodes.CREATED)
       .expect((res) => {
         expect(res.body).toBeInstanceOf(Object);
-        testLogger.debug(res.body);
+        const newCourse = res.body as Course;
+        expect(newCourse.title).toEqual(fakeCourseName);
+        expect(newCourse.id).not.toBeNull();
       });
   });
 });

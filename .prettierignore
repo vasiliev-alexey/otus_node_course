@@ -1,6 +1,11 @@
-/coverage/*
+**/coverage/
 !.eslintrc.js
-/dist/*
+**/dist/
 webpack.config.ts
 pnpm-lock.yaml
 
+
+.idea/
+packages/courses-common/lib/
+
+**/lib/

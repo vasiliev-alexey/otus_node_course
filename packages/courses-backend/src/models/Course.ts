@@ -1,3 +1,4 @@
+// require("module-alias/register");
 import { Course } from "@course/common";
 import Lesson from "@models/Lesson";
 import { SchemaFactory } from "@models/SchemaFactory";

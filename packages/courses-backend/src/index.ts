@@ -1,4 +1,12 @@
-// import mongoose from "mongoose";
+import moduleAlias from "module-alias";
+moduleAlias.addAliases({
+  "@src": __dirname,
+  "@controllers": __dirname + "/controllers/",
+  "@models": __dirname + "/models/",
+});
+
+// import Router from "./routes";
+import { courseRouter } from "@src/routes/courseRouter";
 import { serverError } from "@src/routes/errorHandler";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -8,12 +16,13 @@ import express from "express";
 import session from "express-session";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
 // import passport from "passport";
 //import * as path from "path";
 import { Logger } from "tslog";
-
-import courseRouter from "./routes/courseRouter";
+//import courseRouter from "./routes/courseRouter";
 //const LocalStrategy = passportLocal.Strategy;
+
 const logger: Logger = new Logger({ name: "server" });
 
 dotenv.config();
@@ -106,6 +115,20 @@ passport.deserializeUser((id: string, cb) => {
 // Routes
 // app.use("/auth", authRouter);
 app.use("/course", courseRouter);
+
+app.use(express.static("public"));
+
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(undefined, {
+    swaggerOptions: {
+      url: "/swagger.json",
+    },
+  })
+);
+
+//app.use(Router);
 
 //static front
 

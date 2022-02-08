@@ -25,14 +25,14 @@ module.exports = {
   resetMocks: true,
   testEnvironment: "node",
   //  setupFiles: ["dotenv/config"],
-  coverageThreshold: {
-    global: {
-      branches: 60,
-      functions: 60,
-      lines: 60,
-      statements: 60,
-    },
-  },
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 60,
+  //     functions: 60,
+  //     lines: 60,
+  //     statements: 60,
+  //   },
+  // },
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts?)$",
   //  testMatch: ['**/api/*.test.ts?(x)'],
   globals: {

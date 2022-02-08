@@ -5,7 +5,12 @@ module.exports = {
     "jest/globals": true,
   },
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "jest"],
+  plugins: [
+    "@typescript-eslint",
+    "jest",
+    "unused-imports",
+    "simple-import-sort",
+  ],
   extends: [
     "prettier",
     "plugin:@typescript-eslint/recommended",
@@ -16,7 +21,19 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "no-console": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        vars: "all",
+        varsIgnorePattern: "^_",
+        args: "after-used",
+        argsIgnorePattern: "^_",
+      },
+    ],
+
+    "no-console": "warn",
     "max-len": [
       "error",
       {
@@ -25,6 +42,7 @@ module.exports = {
       },
     ],
     "import/prefer-default-export": "off",
+    "simple-import-sort/imports": "error",
     "import/no-extraneous-dependencies": [
       "off",
       { devDependencies: ["**/*.test.js"] },
