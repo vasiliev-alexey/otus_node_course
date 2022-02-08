@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "lint": "eslint . && prettier --check .",
     "lint:fix": "eslint . --fix && prettier --write .",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "build-ref": "tsc --build tsconfig.build.json"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
@@ -23,6 +24,8 @@
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "eslint-plugin-jest": "^25.3.4",
     "jest": "^27.4.7",
     "prettier": "^2.5.1",
@@ -30,7 +33,8 @@
     "ts-node": "^10.4.0",
     "typescript": "4.5.4",
     "husky": "^7.0.4",
-    "lint-staged": "^12.1.7"
+    "lint-staged": "^12.1.7",
+    "@faker-js/faker": "^6.0.0-alpha.5"
   },
   "workspaces": [
     "./packages/*"

@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/courses-backend/" },
+    { "path": "packages/courses-common/" }
+  ]
+}

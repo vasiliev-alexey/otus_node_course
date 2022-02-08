@@ -1,0 +1,20 @@
+POST http://localhost:4000/course/
+Content-Type: application/json
+
+{
+  "title": {{$randomInt}},
+"lessons" : [{"topic": 111}, {"topic": 2222}]
+}
+
+<> 2022-02-05T190215.200.json
+<> 2022-02-05T190214.200.json
+<> 2022-02-05T190213-1.200.json
+<> 2022-02-05T190213.200.json
+<> 2022-02-05T190152.200.json
+
+###
+
+GET http://localhost:4000/course/
+
+<> 2022-02-05T190232.200.json
+

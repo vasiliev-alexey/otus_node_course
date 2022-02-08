@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { program } from "commander";
-import pkg from "../package.json";
-import walk from "./services/tree";
 import * as Path from "path";
+
+import pkg from "../package.json";
 import { printer } from "./services/printer";
+import walk from "./services/tree";
 
 const appName = pkg.name;
 
