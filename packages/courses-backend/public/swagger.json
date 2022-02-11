@@ -6,6 +6,19 @@
     "requestBodies": {},
     "responses": {},
     "schemas": {
+      "UserCredentials": {
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": ["username", "password"],
+        "type": "object",
+        "additionalProperties": false
+      },
       "Course": {
         "properties": {
           "createdAt": {
@@ -30,6 +43,16 @@
         "required": ["title"],
         "type": "object",
         "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "properties": {
+          "errorMessage": {
+            "type": "string"
+          }
+        },
+        "required": ["errorMessage"],
+        "type": "object",
+        "additionalProperties": false
       }
     },
     "securitySchemes": {}
@@ -46,6 +69,78 @@
   },
   "openapi": "3.0.0",
   "paths": {
+    "/auth/register": {
+      "post": {
+        "operationId": "RegisterNewUser",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Register Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["message"],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "204": {
+            "description": "No content"
+          }
+        },
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "operationId": "Logout",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [],
+        "parameters": []
+      }
+    },
     "/courses": {
       "get": {
         "operationId": "GetMessage",
@@ -70,12 +165,32 @@
       "post": {
         "operationId": "CreateNewCourse",
         "responses": {
-          "200": {
-            "description": "Ok",
+          "201": {
+            "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unauthorized error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }

@@ -1,6 +1,5 @@
 import CourseController from "@controllers/courseController";
 import { Course } from "@course/common";
-import { RequestWithCourse } from "@src/interfaces/course.interface";
 import express from "express";
 import { StatusCodes } from "http-status-codes";
 import { Logger } from "tslog";
@@ -17,8 +16,8 @@ courseRouter.get("/", async (_req, res) => {
   return res.status(StatusCodes.OK).send(response);
 });
 
-courseRouter.post("/", async (req: RequestWithCourse, res) => {
-  logger.debug("course", "/", req.body, req.course);
+courseRouter.post("/", async (req, res) => {
+  logger.debug("course", "/", req.body);
   const courseDto: Course = req.body;
   const controller = new CourseController();
   const newCourse = await controller.createNewCourse(courseDto);

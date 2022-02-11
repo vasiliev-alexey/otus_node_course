@@ -1,6 +1,7 @@
 import { Course } from "@course/common";
 import { faker } from "@faker-js/faker";
 import Courses from "@models/Course";
+import { Express } from "express";
 import * as HTTP from "http";
 import { StatusCodes } from "http-status-codes";
 import { MongoMemoryServer } from "mongodb-memory-server";
@@ -16,6 +17,7 @@ const testLogger: Logger = rootTestLogger.getChildLogger({
 });
 
 describe("GET /course", () => {
+  let server: Express;
   let app: HTTP.Server;
 
   let mongoServer: MongoMemoryServer;
@@ -27,8 +29,9 @@ describe("GET /course", () => {
     const rndDbName = nanoid();
     process.env.PORT = String(4000 + Number(process.env.JEST_WORKER_ID || 1));
     process.env.MONGO_URL = `${mongoServer.getUri()}${rndDbName}?authSource=admin`;
-    const mod = await import("../index");
-    app = mod.default;
+    const mod = await import("../server");
+    server = mod.default;
+    app = server.listen(3000);
 
     tasks = Array.from(Array(10).keys()).map((_) => {
       const course = new Courses({ title: faker.internet.domainName() });
@@ -53,7 +56,7 @@ describe("GET /course", () => {
     testLogger.debug("test req get list");
 
     await request(app)
-      .get("/course")
+      .get("/courses")
       .set("Accept", "application/json")
       .expect(200)
       .expect((res) => {
@@ -69,7 +72,7 @@ describe("GET /course", () => {
     const fakeCourseName = faker.company.companyName();
 
     await request(app)
-      .post("/course")
+      .post("/courses")
       .send({ title: fakeCourseName })
       .expect(StatusCodes.CREATED)
       .expect((res) => {
