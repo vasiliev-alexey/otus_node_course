@@ -6,8 +6,9 @@
 **/.eslintcache
 **/coverage
 **/dist
-**/env
+**/.env
 **/*.tgz
 
 
 **/lib/
+**/.pnpm-debug.log

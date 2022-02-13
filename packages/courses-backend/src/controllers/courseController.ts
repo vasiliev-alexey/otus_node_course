@@ -3,7 +3,15 @@ import CourseModel from "@models/Course";
 import { ErrorResponse } from "@src/interfaces/ErrorDto";
 import { StatusCodes } from "http-status-codes";
 import { Logger } from "tslog";
-import { Body, Get, Post, Response, Route, SuccessResponse } from "tsoa";
+import {
+  Body,
+  Get,
+  Post,
+  Response,
+  Route,
+  Security,
+  SuccessResponse,
+} from "tsoa";
 
 const controllerName = "course-controller";
 const logger: Logger = new Logger({ name: `${controllerName}-logger` });
@@ -11,6 +19,7 @@ const logger: Logger = new Logger({ name: `${controllerName}-logger` });
 @Route("courses")
 export default class CourseController {
   @Get("/")
+  @Security("jwt")
   public async getCourses(): Promise<Course[]> {
     logger.debug("course", "/");
     const data = await CourseModel.find().populate("lessons");

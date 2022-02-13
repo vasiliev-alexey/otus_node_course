@@ -159,7 +159,11 @@
             }
           }
         },
-        "security": [],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
         "parameters": []
       },
       "post": {
