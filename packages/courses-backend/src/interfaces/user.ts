@@ -16,4 +16,17 @@ const user = new mongoose.Schema({
   isAdmin: Boolean,
 });
 
+// user.methods.comparePassword = function (
+//   candidatePassword: string,
+//   callback: any
+// ) {
+//   bcrypt.compare(
+//     candidatePassword,
+//     this.password,
+//     (err: Error, isMatch: boolean) => {
+//       callback(err, isMatch);
+//     }
+//   );
+// };
+
 export default mongoose.model("User", user);

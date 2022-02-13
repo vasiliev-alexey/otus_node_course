@@ -25,7 +25,8 @@
     "paths": {
       "@src/*": ["src/*"],
       "@controllers/*": ["src/controllers/*"],
-      "@models/*": ["src/models/*"]
+      "@models/*": ["src/models/*"],
+      "@middlewares/*": ["src/middlewares/*"]
     }
   },
   "include": ["src/", "src/package.json"],

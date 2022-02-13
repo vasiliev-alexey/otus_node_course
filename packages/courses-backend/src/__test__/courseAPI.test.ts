@@ -1,43 +1,52 @@
-import { Course } from "@course/common";
+import { Course, UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
 import Courses from "@models/Course";
-import { Express } from "express";
+import User from "@src/interfaces/user";
+import bcrypt from "bcryptjs";
 import * as HTTP from "http";
 import { StatusCodes } from "http-status-codes";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { nanoid } from "nanoid";
 import request from "supertest";
 import { Logger } from "tslog";
 
-import { rootTestLogger } from "./utils";
+import { prepareInfra, rootTestLogger } from "./utils";
 
 const testLogger: Logger = rootTestLogger.getChildLogger({
   name: "course-logger",
 });
 
 describe("GET /course", () => {
-  let server: Express;
-  let app: HTTP.Server;
+  let app: HTTP.Server, mongoServer: MongoMemoryServer;
 
-  let mongoServer: MongoMemoryServer;
   jest.setTimeout(10_000);
   let tasks: Promise<Course>[];
 
-  beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create();
-    const rndDbName = nanoid();
-    process.env.PORT = String(4000 + Number(process.env.JEST_WORKER_ID || 1));
-    process.env.MONGO_URL = `${mongoServer.getUri()}${rndDbName}?authSource=admin`;
-    const mod = await import("../server");
-    server = mod.default;
-    app = server.listen(3000);
+  const testAuthUser: UserCredentials = {
+    password: faker.datatype.string(12),
+    username: faker.internet.email(),
+  };
+
+  const seedData = async (): Promise<void> => {
+    const hashedPassword = await bcrypt.hash(testAuthUser.password, 10);
+    const newUser = new User({
+      username: testAuthUser.username,
+      password: hashedPassword,
+      isAdmin: true,
+    });
+    await newUser.save();
 
     tasks = Array.from(Array(10).keys()).map((_) => {
       const course = new Courses({ title: faker.internet.domainName() });
       return course.save();
     });
     await Promise.all(tasks);
+  };
+
+  beforeAll(async () => {
+    const { mngServer, appServer } = await prepareInfra(seedData);
+    mongoServer = mngServer;
+    app = appServer;
   });
 
   afterAll(async () => {
@@ -55,9 +64,23 @@ describe("GET /course", () => {
 
     testLogger.debug("test req get list");
 
+    let token = "";
+
+    await request(app)
+      .post("/auth/login")
+      .set("Accept", "application/json")
+      .send(testAuthUser)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.token).not.toBeNull();
+        token = res.body.token;
+      });
+
+    expect(token).not.toBeNull();
     await request(app)
       .get("/courses")
       .set("Accept", "application/json")
+      .set("Authorization", `Bearer ${token}`)
       .expect(200)
       .expect((res) => {
         expect(res.body).toBeInstanceOf(Array);

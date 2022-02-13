@@ -2,6 +2,7 @@ import AuthController from "@controllers/authController";
 import { UserInterface } from "@src/interfaces/UserInterface";
 import express from "express";
 import { StatusCodes } from "http-status-codes";
+import * as jwt from "jsonwebtoken";
 import passport from "passport";
 import { Logger } from "tslog";
 
@@ -33,17 +34,19 @@ authRouter.post("/register", async (req, res) => {
     res.sendStatus(StatusCodes.CREATED);
   } catch (err) {
     logger.error("register user  error", err.message);
-    res.status(StatusCodes.BAD_REQUEST).send(err.message);
+    res.status(StatusCodes.BAD_REQUEST).send({ message: err.message });
   }
 });
 
 authRouter.post("/login", passport.authenticate("local"), async (req, res) => {
-  logger.debug("login login login", req.user);
+  logger.debug("login login login");
 
   if (req.user) {
     const dbUser = req.user as UserInterface;
     await authController.login({ username: dbUser.username, password: "" });
-    res.send({ userId: dbUser.id, userName: dbUser.username });
+    //res.send({ userId: dbUser.id, userName: dbUser.username });
+    const token = jwt.sign({ username: dbUser.username }, "JWT_SECRET");
+    res.status(200).send({ token: token });
   } else {
     logger.debug("user NOT defined");
     res.status(StatusCodes.BAD_REQUEST).send({});

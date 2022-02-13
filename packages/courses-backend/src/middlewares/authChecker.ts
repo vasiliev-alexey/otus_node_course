@@ -1,19 +1,22 @@
 import { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
+import passport from "passport";
 import { Logger } from "tslog";
 const logger: Logger = new Logger({ name: "authChecker-logger" });
 
-export const authChecker = (
+export const authenticateJWT = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  logger.debug("checker", req.path);
-  if (req.user || req.path === "/auth") {
-    logger.debug("checker ->");
-    next();
-  } else {
-    logger.debug("checker !!!");
-    res.status(StatusCodes.UNAUTHORIZED).send({ message: "Not auth" });
-  }
+  passport.authenticate("jwt", function (err, user, _info) {
+    if (err) {
+      logger.error(err);
+      return res.status(401).json({ status: "error", code: "unauthorized" });
+    }
+    if (!user) {
+      return res.status(401).json({ status: "error", code: "unauthorized" });
+    } else {
+      return next();
+    }
+  })(req, res, next);
 };

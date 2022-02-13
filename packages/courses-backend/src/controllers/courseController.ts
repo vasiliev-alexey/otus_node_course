@@ -11,7 +11,7 @@ const logger: Logger = new Logger({ name: `${controllerName}-logger` });
 @Route("courses")
 export default class CourseController {
   @Get("/")
-  public async getMessage(): Promise<Course[]> {
+  public async getCourses(): Promise<Course[]> {
     logger.debug("course", "/");
     const data = await CourseModel.find().populate("lessons");
     return data;
