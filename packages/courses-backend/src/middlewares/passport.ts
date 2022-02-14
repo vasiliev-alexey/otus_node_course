@@ -5,15 +5,26 @@ import {
 } from "@src/interfaces/UserInterface";
 import bcrypt from "bcryptjs";
 import { Express } from "express";
+import session from "express-session";
 import passport from "passport";
 import passportJwt from "passport-jwt";
 import passportLocal from "passport-local";
+import { Logger } from "tslog";
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
 
 const LocalStrategy = passportLocal.Strategy;
+const logger: Logger = new Logger({ name: `configureWithPassport-logger` });
 
 export const configureWithPassport = (app: Express): void => {
+  app.use(
+    session({
+      secret: "secretcode",
+      resave: true,
+      saveUninitialized: true,
+    })
+  );
+
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(
@@ -22,9 +33,11 @@ export const configureWithPassport = (app: Express): void => {
         { username: username },
         (err: Error, user: DatabaseUserInterface) => {
           if (err) throw err;
+          logger.error(err);
           if (!user) return done(null, false);
           bcrypt.compare(password, user.password, (err, result: boolean) => {
             if (err) throw err;
+            logger.error(err);
             if (result === true) {
               return done(null, user);
             } else {

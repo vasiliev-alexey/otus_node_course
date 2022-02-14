@@ -10,3 +10,5 @@
 https://codesandbox.io/s/cjcvh?file=/src/api/middlewares/ErrorHandlerMiddleware.ts
 
 https://javascript.plainenglish.io/jwt-auth-with-node-and-passport-js-c41a91d333e0
+
+https://github.com/anvilation/azure-webapp-typescript-express/blob/master/src/controller/auth.controller.ts

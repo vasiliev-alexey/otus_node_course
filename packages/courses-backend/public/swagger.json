@@ -134,16 +134,37 @@
         "operationId": "Logout",
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["message"],
+                  "type": "object"
+                }
+              }
+            }
           }
         },
         "security": [],
         "parameters": []
       }
     },
-    "/courses": {
+    "/courses/courses": {
       "get": {
-        "operationId": "GetCourses",
+        "operationId": "GetAll",
         "responses": {
           "200": {
             "description": "Ok",
@@ -159,13 +180,11 @@
             }
           }
         },
-        "security": [
-          {
-            "jwt": []
-          }
-        ],
+        "security": [],
         "parameters": []
-      },
+      }
+    },
+    "/courses": {
       "post": {
         "operationId": "CreateNewCourse",
         "responses": {

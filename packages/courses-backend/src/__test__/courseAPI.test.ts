@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { Course, UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
 import Courses from "@models/Course";
@@ -16,7 +18,7 @@ const testLogger: Logger = rootTestLogger.getChildLogger({
   name: "course-logger",
 });
 
-describe("GET /course", () => {
+describe("course API test  suit", () => {
   let app: HTTP.Server, mongoServer: MongoMemoryServer;
 
   jest.setTimeout(10_000);
@@ -28,6 +30,7 @@ describe("GET /course", () => {
   };
 
   const seedData = async (): Promise<void> => {
+    testLogger.debug("data seeded");
     const hashedPassword = await bcrypt.hash(testAuthUser.password, 10);
     const newUser = new User({
       username: testAuthUser.username,
@@ -44,9 +47,12 @@ describe("GET /course", () => {
   };
 
   beforeAll(async () => {
-    const { mngServer, appServer } = await prepareInfra(seedData);
+    const { mngServer, appServer } = await prepareInfra();
+
     mongoServer = mngServer;
     app = appServer;
+
+    await seedData();
   });
 
   afterAll(async () => {
@@ -61,26 +67,11 @@ describe("GET /course", () => {
 
   it("response get with json", async () => {
     const val = await tasks[0];
-
     testLogger.debug("test req get list");
 
-    let token = "";
-
-    await request(app)
-      .post("/auth/login")
-      .set("Accept", "application/json")
-      .send(testAuthUser)
-      .expect(200)
-      .expect((res) => {
-        expect(res.body.token).not.toBeNull();
-        token = res.body.token;
-      });
-
-    expect(token).not.toBeNull();
     await request(app)
       .get("/courses")
       .set("Accept", "application/json")
-      .set("Authorization", `Bearer ${token}`)
       .expect(200)
       .expect((res) => {
         expect(res.body).toBeInstanceOf(Array);
@@ -94,8 +85,21 @@ describe("GET /course", () => {
 
     const fakeCourseName = faker.company.companyName();
 
+    let token = "";
+
+    await request(app)
+      .post("/auth/login")
+      .set("Accept", "application/json")
+      .send(testAuthUser)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.token).not.toBeNull();
+        token = res.body.token;
+      });
+
     await request(app)
       .post("/courses")
+      .set("Authorization", `Bearer ${token}`)
       .send({ title: fakeCourseName })
       .expect(StatusCodes.CREATED)
       .expect((res) => {

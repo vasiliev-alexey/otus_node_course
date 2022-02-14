@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
 import User from "@src/interfaces/user";

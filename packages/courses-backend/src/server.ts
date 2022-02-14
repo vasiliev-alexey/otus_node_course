@@ -1,13 +1,13 @@
-import { serverError } from "@src/middlewares/errorHandler";
+import "reflect-metadata";
+
+import { authorizationChecker } from "@middlewares/authChecker";
 import { configureWithPassport } from "@src/middlewares/passport";
-import { rootRouter } from "@src/routes/rootRouter";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import session from "express-session";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import { Action, createExpressServer } from "routing-controllers";
 import { Logger } from "tslog";
 
 const logger: Logger = new Logger({ name: "server" });
@@ -17,23 +17,22 @@ dotenv.config();
 const loggerMiddleWare = morgan(process.env.LOGGER_LEVEL || "dev");
 
 // Middleware
-const app = express();
-app.use(express.json()).use(loggerMiddleWare);
-app.use(
-  cors({
+
+const app = createExpressServer({
+  controllers: [__dirname + "/controllers/*.ts"], // we specify controllers we want to use
+  defaultErrorHandler: false,
+  classTransformer: false,
+  cors: {
     methods: "GET,POST,PATCH,DELETE,OPTIONS",
     optionsSuccessStatus: 200,
     origin: "http://localhost",
-  })
-);
+  },
+  authorizationChecker: authorizationChecker,
+  currentUserChecker: (action: Action) => action.request.user,
+});
 
-app.use(
-  session({
-    secret: "secretcode",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+app.use(express.json()).use(loggerMiddleWare);
+
 app.use(cookieParser());
 
 // mongo
@@ -54,10 +53,7 @@ mongoose.connect(
 );
 
 // Passport
-
 configureWithPassport(app);
-
-app.use("/", rootRouter);
 app.use(express.static("public"));
 
 //static front
@@ -73,7 +69,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, basePath, "index.html"));
 });
 */
-app.use(serverError);
+//app.use(serverError);
 const server = app;
 
 export default server;
