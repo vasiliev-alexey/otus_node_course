@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import { UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
-import User from "@src/interfaces/user";
+import User from "@models/User";
 import bcrypt from "bcryptjs";
 import * as HTTP from "http";
 import { MongoMemoryServer } from "mongodb-memory-server";

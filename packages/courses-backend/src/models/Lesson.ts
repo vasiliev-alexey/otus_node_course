@@ -1,4 +1,3 @@
-// require("module-alias/register");
 import { Lesson } from "@course/common";
 import { SchemaFactory } from "@models/SchemaFactory";
 import mongoose from "mongoose";

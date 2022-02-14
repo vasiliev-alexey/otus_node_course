@@ -1,4 +1,4 @@
-import User from "@src/interfaces/user";
+import User from "@models/User";
 import {
   DatabaseUserInterface,
   UserInterface,
@@ -9,6 +9,7 @@ import session from "express-session";
 import passport from "passport";
 import passportJwt from "passport-jwt";
 import passportLocal from "passport-local";
+import * as Process from "process";
 import { Logger } from "tslog";
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
@@ -19,7 +20,7 @@ const logger: Logger = new Logger({ name: `configureWithPassport-logger` });
 export const configureWithPassport = (app: Express): void => {
   app.use(
     session({
-      secret: "secretcode",
+      secret: Process.env.SECRET_SESSION_KEY!,
       resave: true,
       saveUninitialized: true,
     })
@@ -50,7 +51,7 @@ export const configureWithPassport = (app: Express): void => {
   );
 
   passport.serializeUser((user: DatabaseUserInterface, cb) => {
-    cb(null, user._id);
+    cb(null, user.id);
   });
 
   passport.deserializeUser((id: string, cb) => {
@@ -58,7 +59,7 @@ export const configureWithPassport = (app: Express): void => {
       const userInformation: UserInterface = {
         username: user.username,
         isAdmin: user.isAdmin,
-        id: user._id,
+        id: user.id,
       };
       cb(err, userInformation);
     });
@@ -68,7 +69,7 @@ export const configureWithPassport = (app: Express): void => {
     new JwtStrategy(
       {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: "JWT_SECRET",
+        secretOrKey: Process.env.JWT_SECRET,
       },
       (jwtToken: Record<string, string>, done) => {
         User.findOne(

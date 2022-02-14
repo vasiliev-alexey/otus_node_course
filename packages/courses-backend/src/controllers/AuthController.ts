@@ -1,8 +1,9 @@
 import { UserCredentials } from "@course/common";
-import User from "@src/interfaces/user";
+import User from "@models/User";
 import bcrypt from "bcryptjs";
 import { Response } from "express";
 import * as jwt from "jsonwebtoken";
+import * as Process from "process";
 import {
   Authorized,
   Body,
@@ -18,7 +19,6 @@ const logger: Logger = new Logger({ name: `${controllerName}-logger` });
 @JsonController("/auth")
 export class AuthController {
   @Post("/register")
-  // @HttpCode(201)
   public async registerNewUser(
     @Body() userCredentials: UserCredentials,
     @Res() resp: Response
@@ -40,7 +40,7 @@ export class AuthController {
         });
         await newUser.save();
         logger.debug("exit ");
-        // logger.debug("User account saved in db", resp);
+        logger.debug("User account saved in db");
         resp.status(201).json({});
       }
     } catch (e) {
@@ -60,10 +60,11 @@ export class AuthController {
     );
     const token = jwt.sign(
       { username: userCredentials.username },
-      "JWT_SECRET"
+      Process.env.JWT_SECRET || "NOT_ASSIGNED_KEY"
     );
     resp.status(200).send({ token: token });
   }
+
   // @Get("/logout")
   // @SuccessResponse(StatusCodes.NO_CONTENT, "No Content")
   // logout(

@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { Course, UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
 import Courses from "@models/Course";
-import User from "@src/interfaces/user";
+import User from "@models/User";
 import bcrypt from "bcryptjs";
 import * as HTTP from "http";
 import { StatusCodes } from "http-status-codes";
