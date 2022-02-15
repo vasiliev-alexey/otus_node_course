@@ -141,9 +141,6 @@ importers:
       ts-node: 10.4.0_faf01e1d5a40372a98081522dcafc186
       ts-node-dev: 1.1.8_typescript@4.5.4
 
-  packages/courses-backend/build/dist:
-    specifiers: {}
-
   packages/courses-backend/src:
     specifiers: {}
 
@@ -261,17 +258,6 @@ importers:
       commander: ^8.3.0
     dependencies:
       commander: 8.3.0
-
-  packages/tree/dist:
-    specifiers:
-      '@types/mock-fs': ^4.13.1
-      commander: ^8.3.0
-      mock-fs: ^5.1.2
-    dependencies:
-      commander: 8.3.0
-    devDependencies:
-      '@types/mock-fs': 4.13.1
-      mock-fs: 5.1.2
 
 packages:
 
@@ -2276,12 +2262,6 @@ packages:
 
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
-    dev: true
-
-  /@types/mock-fs/4.13.1:
-    resolution: {integrity: sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==}
-    dependencies:
-      '@types/node': 17.0.8
     dev: true
 
   /@types/module-alias/2.0.1:
@@ -7561,11 +7541,6 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
-    dev: true
-
-  /mock-fs/5.1.2:
-    resolution: {integrity: sha512-YkjQkdLulFrz0vD4BfNQdQRVmgycXTV7ykuHMlyv+C8WCHazpkiQRDthwa02kSyo8wKnY9wRptHfQLgmf0eR+A==}
-    engines: {node: '>=12.0.0'}
     dev: true
 
   /module-alias/2.2.2:
