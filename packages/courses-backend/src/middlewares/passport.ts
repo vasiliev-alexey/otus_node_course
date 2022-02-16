@@ -20,7 +20,7 @@ const logger: Logger = new Logger({ name: `configureWithPassport-logger` });
 export const configureWithPassport = (app: Express): void => {
   app.use(
     session({
-      secret: Process.env.SECRET_SESSION_KEY!,
+      secret: Process.env.SECRET_SESSION_KEY || "ASSIGN_ME",
       resave: true,
       saveUninitialized: true,
     })

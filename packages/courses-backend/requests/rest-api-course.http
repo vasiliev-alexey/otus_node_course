@@ -1,9 +1,9 @@
-POST http://localhost:4000/course/
+POST http://localhost:4000/courses/
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "title": {{$randomInt}},
-"lessons" : [{"topic": 111}, {"topic": 2222}]
+  "title": {{$randomInt}}
 }
 
 <> 2022-02-05T190215.200.json

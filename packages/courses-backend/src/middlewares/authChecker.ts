@@ -1,28 +1,6 @@
-// import { NextFunction, Request, Response } from "express";
-// import passport from "passport";
-// import { Logger } from "tslog";
-// const logger: Logger = new Logger({ name: "authChecker-logger" });
-//
-// export const authenticateJWT = (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   passport.authenticate("jwt", function (err, user, _info) {
-//     if (err) {
-//       logger.error(err);
-//       return res.status(401).json({ status: "error", code: "unauthorized" });
-//     }
-//     if (!user) {
-//       return res.status(401).json({ status: "error", code: "unauthorized" });
-//     } else {
-//       return next();
-//     }
-//   })(req, res, next);
-// };
-
+import { Request, Response } from "express";
 import passport from "passport";
-import { Action } from "routing-controllers";
+import { Action, ExpressMiddlewareInterface } from "routing-controllers";
 import { Logger } from "tslog";
 
 const logger: Logger = new Logger({ name: "auth-checker" });
@@ -41,6 +19,7 @@ export const authorizationChecker = (action: Action) =>
       })(action.request, action.response, action.next);
     } else {
       passport.authenticate("jwt", function (err, user, _info) {
+        logger.info("used jwt check");
         if (err) {
           logger.error(err);
           return resolve(false);
@@ -50,7 +29,8 @@ export const authorizationChecker = (action: Action) =>
           action.response.code = 400;
           return resolve(false);
         } else {
-          logger.info("Auth success");
+          logger.info("Auth success", user);
+          action.request.user = user;
           return resolve(true);
         }
       })(action.request, action.response, action.next);
@@ -58,3 +38,10 @@ export const authorizationChecker = (action: Action) =>
       return resolve(true);
     }
   });
+
+export class Authenticate implements ExpressMiddlewareInterface {
+  use(req: Request, res: Response, next?: (err?: Error) => void): void {
+    logger.info("Check  user auth");
+    passport.authenticate("jwt", { session: false })(req, res, next);
+  }
+}

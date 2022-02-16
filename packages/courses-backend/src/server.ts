@@ -28,7 +28,13 @@ const app = createExpressServer({
     origin: "http://localhost",
   },
   authorizationChecker: authorizationChecker,
-  currentUserChecker: (action: Action) => action.request.user,
+  currentUserChecker: (action: Action) => {
+    // const token = action.request.headers["authorization"];
+    //
+    // const jwt_payload = jwt.decode(token);
+    // console.log("77777", jwt_payload);
+    return action.request.user;
+  },
 });
 
 app.use(express.json()).use(loggerMiddleWare);
