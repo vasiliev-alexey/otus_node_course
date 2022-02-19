@@ -39,7 +39,14 @@ export const authorizationChecker = (action: Action) =>
     }
   });
 
-export class Authenticate implements ExpressMiddlewareInterface {
+export class JWTAuthenticate implements ExpressMiddlewareInterface {
+  use(req: Request, res: Response, next?: (err?: Error) => void): void {
+    logger.info("Check  user auth");
+    passport.authenticate("jwt", { session: false })(req, res, next);
+  }
+}
+
+export class SetRefreshCookie implements ExpressMiddlewareInterface {
   use(req: Request, res: Response, next?: (err?: Error) => void): void {
     logger.info("Check  user auth");
     passport.authenticate("jwt", { session: false })(req, res, next);

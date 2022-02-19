@@ -6,7 +6,7 @@
 
     "outDir": "build/dist",
     "module": "commonjs",
-    "target": "es5",
+    "target": "ES2021",
     "lib": ["es6"],
     "sourceMap": true,
     "allowJs": true,
@@ -26,7 +26,8 @@
       "@src/*": ["src/*"],
       "@controllers/*": ["src/controllers/*"],
       "@models/*": ["src/models/*"],
-      "@middlewares/*": ["src/middlewares/*"]
+      "@middlewares/*": ["src/middlewares/*"],
+      "@interfaces/*": ["src/interfaces/*"]
     }
   },
   "include": ["src/", "src/package.json"],

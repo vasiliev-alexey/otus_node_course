@@ -7,8 +7,7 @@
     "start_dev": "ts-node-dev --project  tsconfig.json   src/index.ts",
     "start": "node build/dist/index.js",
     "test": "jest --coverage",
-    "build:prod": "tsc  --project  tsconfig.json",
-    "swagger": "tsoa spec"
+    "build:prod": "tsc  --project  tsconfig.json"
   },
   "keywords": [],
   "author": "vasiliev-alexey",

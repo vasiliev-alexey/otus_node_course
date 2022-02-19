@@ -2,7 +2,7 @@ import { SchemaFactory } from "@models/SchemaFactory";
 import { DatabaseUserInterface } from "@src/interfaces/UserInterface";
 import mongoose from "mongoose";
 
-const user = SchemaFactory<DatabaseUserInterface>({
+const userModel = SchemaFactory<DatabaseUserInterface>({
   username: {
     type: String,
     unique: true,
@@ -18,4 +18,4 @@ const user = SchemaFactory<DatabaseUserInterface>({
   isAdmin: Boolean,
 });
 
-export default mongoose.model("User", user);
+export const UserModel = mongoose.model("User", userModel);

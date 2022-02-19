@@ -20,7 +20,8 @@ const loggerMiddleWare = morgan(process.env.LOGGER_LEVEL || "dev");
 
 const app = createExpressServer({
   controllers: [__dirname + "/controllers/*.ts"], // we specify controllers we want to use
-  defaultErrorHandler: false,
+  // defaultErrorHandler: false,
+  middlewares: [cookieParser()],
   classTransformer: false,
   cors: {
     methods: "GET,POST,PATCH,DELETE,OPTIONS",
@@ -36,10 +37,8 @@ const app = createExpressServer({
     return action.request.user;
   },
 });
-
+// app.use(cookieParser());
 app.use(express.json()).use(loggerMiddleWare);
-
-app.use(cookieParser());
 
 // mongo
 mongoose.connect(

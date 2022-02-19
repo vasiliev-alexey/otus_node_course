@@ -31,10 +31,9 @@ const seedData = async () => {
   await newUser.save();
 };
 
-describe("Auth api tests", () => {
+describe("Auth logout abd refresh test", () => {
   let app: HTTP.Server, mongoServer: MongoMemoryServer;
   jest.setTimeout(10_000);
-
   beforeAll(async () => {
     const { mngServer, appServer } = await prepareInfra(seedData);
     mongoServer = mngServer;
@@ -51,48 +50,11 @@ describe("Auth api tests", () => {
     }
   });
 
-  it("test on user register", async () => {
-    testLogger.debug("test  auth");
+  it("test on user logout", async () => {
+    testLogger.debug("test  logout");
 
-    const rndUserCred: UserCredentials = {
-      username: faker.internet.email(),
-      password: faker.datatype.string(12),
-    };
-
-    await request(app)
-      .post("/auth/register")
-      .set("Accept", "application/json")
-      .send(rndUserCred)
-      .expect(201);
-  });
-
-  it("test on user register twice with unique", async () => {
-    testLogger.debug("test  auth");
-
-    const rndUserCred: UserCredentials = {
-      username: faker.internet.email(),
-      password: faker.datatype.string(12),
-    };
-
-    await request(app)
-      .post("/auth/register")
-      .set("Accept", "application/json")
-      .send(rndUserCred)
-      .expect(201);
-
-    await request(app)
-      .post("/auth/register")
-      .set("Accept", "application/json")
-      .send(rndUserCred)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body.message).toEqual("User Already Exists");
-      });
-  });
-
-  it("test on user login", async () => {
-    testLogger.debug("test  auth");
-
+    let token = "";
+    let cookie = "";
     await request(app)
       .post("/auth/login")
       .set("Accept", "application/json")
@@ -100,6 +62,54 @@ describe("Auth api tests", () => {
       .expect(200)
       .expect((res) => {
         expect(res.body.token).not.toBeNull();
+        token = res.body.token;
+        cookie = res.headers["set-cookie"];
+        expect(cookie).toHaveLength(1);
+      });
+
+    await request(app)
+      .get("/auth/logout")
+      .set("cookie", cookie)
+      .set("Authorization", `Bearer ${token}`)
+      .set("Accept", "application/json")
+      .expect(200)
+      .expect((res) => {
+        cookie = res.headers["set-cookie"];
+        expect(cookie[0].startsWith("refreshToken=;")).toBeTruthy();
+      });
+  });
+  it("test on user refresh token", async () => {
+    testLogger.debug("test  refresh");
+
+    let token = "";
+    let oldCookie = "";
+    let cookie = "";
+    await request(app)
+      .post("/auth/login")
+      .set("Accept", "application/json")
+      .send(testAuthUser)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.token).not.toBeNull();
+        token = res.body.token;
+        oldCookie = res.headers["set-cookie"];
+        expect(oldCookie).toHaveLength(1);
+        expect(token).not.toBeNull();
+      });
+
+    await new Promise((r) => setTimeout(r, 1000));
+
+    await request(app)
+      .get("/auth/refresh")
+      .set("cookie", oldCookie)
+      // .set("Authorization", `Bearer ${token}`)
+      .set("Accept", "application/json")
+      .expect(200)
+      .expect((res) => {
+        cookie = res.headers["set-cookie"];
+
+        expect(cookie[0].startsWith("refreshToken=;")).toBeFalsy();
+        expect(oldCookie[0]).not.toEqual(cookie[0]);
       });
   });
 });

@@ -1,4 +1,4 @@
-import User from "@models/User";
+import { UserModel } from "@models/UserModel";
 import {
   DatabaseUserInterface,
   UserInterface,
@@ -30,15 +30,23 @@ export const configureWithPassport = (app: Express): void => {
   app.use(passport.session());
   passport.use(
     new LocalStrategy((username: string, password: string, done) => {
-      User.findOne(
+      logger.debug("auth user", username);
+
+      UserModel.findOne(
         { username: username },
         (err: Error, user: DatabaseUserInterface) => {
-          if (err) throw err;
-          logger.error(err);
+          if (err) {
+            logger.error(err);
+            throw err;
+          }
+
           if (!user) return done(null, false);
           bcrypt.compare(password, user.password, (err, result: boolean) => {
-            if (err) throw err;
-            logger.error(err);
+            if (err) {
+              logger.error(err);
+              throw err;
+            }
+
             if (result === true) {
               return done(null, user);
             } else {
@@ -55,32 +63,37 @@ export const configureWithPassport = (app: Express): void => {
   });
 
   passport.deserializeUser((id: string, cb) => {
-    User.findOne({ _id: id }, (err: Error, user: DatabaseUserInterface) => {
-      const userInformation: UserInterface = {
-        username: user.username,
-        isAdmin: user.isAdmin,
-        id: user.id,
-      };
-      cb(err, userInformation);
-    });
+    UserModel.findOne(
+      { _id: id },
+      (err: Error, user: DatabaseUserInterface) => {
+        const userInformation: UserInterface = {
+          username: user.username,
+          isAdmin: user.isAdmin,
+          id: user.id,
+        };
+        cb(err, userInformation);
+      }
+    );
   });
 
   passport.use(
     new JwtStrategy(
       {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: Process.env.JWT_SECRET,
+        secretOrKey: Process.env.JWT_ACCESS_SECRET,
       },
       (jwtToken: Record<string, string>, done) => {
-        User.findOne(
+        UserModel.findOne(
           { username: jwtToken.username },
           function (err: Error, user: UserInterface) {
             if (err) {
+              logger.error(err);
               return done(err, false);
             }
             if (user) {
               return done(undefined, user, jwtToken);
             } else {
+              logger.error(`user  ${jwtToken.username} not found `);
               return done(undefined, false);
             }
           }

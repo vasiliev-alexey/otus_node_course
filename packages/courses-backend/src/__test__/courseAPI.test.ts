@@ -2,8 +2,8 @@ import "reflect-metadata";
 
 import { Course, UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
-import Courses from "@models/Course";
-import User from "@models/User";
+import { CourseModel } from "@models/CourseModel";
+import { UserModel } from "@models/UserModel";
 import bcrypt from "bcryptjs";
 import * as HTTP from "http";
 import { StatusCodes } from "http-status-codes";
@@ -32,7 +32,7 @@ describe("course API test  suit", () => {
   const seedData = async (): Promise<void> => {
     testLogger.debug("data seeded");
     const hashedPassword = await bcrypt.hash(testAuthUser.password, 10);
-    const newUser = new User({
+    const newUser = new UserModel({
       username: testAuthUser.username,
       password: hashedPassword,
       isAdmin: true,
@@ -40,7 +40,7 @@ describe("course API test  suit", () => {
     await newUser.save();
 
     tasks = Array.from(Array(10).keys()).map((_) => {
-      const course = new Courses({ title: faker.internet.domainName() });
+      const course = new CourseModel({ title: faker.internet.domainName() });
       return course.save();
     });
     await Promise.all(tasks);
@@ -74,7 +74,7 @@ describe("course API test  suit", () => {
       .set("Accept", "application/json")
       .expect(200)
       .expect((res) => {
-        expect(res.body).toBeInstanceOf(Array);
+        expect(res.body).toBeInstanceOf(Object);
         expect(res.body.length).toStrictEqual(tasks.length);
         expect(res.body[0].title).toEqual(val.title);
       });

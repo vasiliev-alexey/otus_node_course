@@ -2,7 +2,7 @@ import { AuditEntity } from "@course/common";
 
 export interface UserInterface {
   username: string;
-  isAdmin: boolean;
+  isAdmin?: boolean;
   id: string;
 }
 

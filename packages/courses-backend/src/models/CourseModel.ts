@@ -1,11 +1,10 @@
-// require("module-alias/register");
 import { Course } from "@course/common";
-import Lesson from "@models/Lesson";
+import { LessonModel } from "@models/LessonModel";
 import { SchemaFactory } from "@models/SchemaFactory";
-import User from "@models/User";
+import { UserModel } from "@models/UserModel";
 import mongoose, { Schema } from "mongoose";
 
-const course = SchemaFactory<Course>({
+const courseModel = SchemaFactory<Course>({
   title: {
     type: String,
     required: true,
@@ -13,14 +12,14 @@ const course = SchemaFactory<Course>({
 
   author: {
     type: Schema.Types.ObjectId,
-    ref: User.modelName,
+    ref: UserModel.modelName,
   },
 
   lessons: [
     {
       type: Schema.Types.ObjectId,
-      ref: Lesson.modelName,
+      ref: LessonModel.modelName,
     },
   ],
 });
-export default mongoose.model<Course>("Course", course);
+export const CourseModel = mongoose.model<Course>("CourseModel", courseModel);
