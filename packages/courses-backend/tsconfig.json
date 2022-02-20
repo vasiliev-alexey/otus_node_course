@@ -27,7 +27,8 @@
       "@controllers/*": ["src/controllers/*"],
       "@models/*": ["src/models/*"],
       "@middlewares/*": ["src/middlewares/*"],
-      "@interfaces/*": ["src/interfaces/*"]
+      "@interfaces/*": ["src/interfaces/*"],
+      "@services/*": ["src/services/*"]
     }
   },
   "include": ["src/", "src/package.json"],

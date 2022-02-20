@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { Course, UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
 import { CourseModel } from "@models/CourseModel";

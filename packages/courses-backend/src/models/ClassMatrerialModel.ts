@@ -1,6 +1,6 @@
 import { ClassMaterial } from "@course/common";
 import { SchemaFactory } from "@models/SchemaFactory";
-import User from "@models/UserModel";
+import { UserModel } from "@models/UserModel";
 import mongoose, { Schema } from "mongoose";
 
 const classMaterial = SchemaFactory<ClassMaterial>({
@@ -10,7 +10,7 @@ const classMaterial = SchemaFactory<ClassMaterial>({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: User.modelName,
+    ref: UserModel.modelName,
     required: true,
   },
 });

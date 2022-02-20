@@ -1,5 +1,5 @@
+import { Token } from "@interfaces/Token";
 import { UserModel } from "@models/UserModel";
-import { Token } from "@src/interfaces/Token";
 import { model, Schema } from "mongoose";
 
 const TokenSchema = new Schema<Token>({

@@ -1,4 +1,4 @@
-import { TokenService } from "@src/services/TokenService";
+import { TokenService } from "@services/TokenService";
 import { Service } from "typedi";
 const tokenService = new TokenService();
 @Service()

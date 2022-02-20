@@ -24,7 +24,7 @@ module.exports = {
   restoreMocks: true,
   resetMocks: true,
   testEnvironment: "node",
-  //  setupFiles: ["dotenv/config"],
+  setupFiles: ["dotenv/config", "./configs/jest-setup.ts"],
   // coverageThreshold: {
   //   global: {
   //     branches: 60,

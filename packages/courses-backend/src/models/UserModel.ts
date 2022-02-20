@@ -1,5 +1,5 @@
+import { DatabaseUserInterface } from "@interfaces/UserInterface";
 import { SchemaFactory } from "@models/SchemaFactory";
-import { DatabaseUserInterface } from "@src/interfaces/UserInterface";
 import mongoose from "mongoose";
 
 const userModel = SchemaFactory<DatabaseUserInterface>({

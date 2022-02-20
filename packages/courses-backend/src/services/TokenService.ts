@@ -1,6 +1,6 @@
 import { UserInterface } from "@interfaces/UserInterface";
 import { TokenModel } from "@models/TokenModel";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import Process from "process";
 import { Service } from "typedi";
 

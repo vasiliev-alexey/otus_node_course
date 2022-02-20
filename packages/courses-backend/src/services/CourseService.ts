@@ -1,6 +1,6 @@
 import { Course } from "@course/common";
+import { UserInterface } from "@interfaces/UserInterface";
 import { CourseModel } from "@models/CourseModel";
-import { UserInterface } from "@src/interfaces/UserInterface";
 import { Service } from "typedi";
 
 @Service()

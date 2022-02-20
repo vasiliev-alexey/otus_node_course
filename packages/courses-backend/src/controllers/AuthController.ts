@@ -2,8 +2,8 @@ import { UserCredentials } from "@course/common";
 import { UserInterface } from "@interfaces/UserInterface";
 import { JWTAuthenticate } from "@middlewares/authChecker";
 import { UserModel } from "@models/UserModel";
-import { AuthService } from "@src/services/AuthService";
-import { TokenService } from "@src/services/TokenService";
+import { AuthService } from "@services/AuthService";
+import { TokenService } from "@services/TokenService";
 import bcrypt from "bcryptjs";
 import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
@@ -22,7 +22,7 @@ import {
   UseBefore,
 } from "routing-controllers";
 import { Logger } from "tslog";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 
 const controllerName = "auth-controller";
 const logger: Logger = new Logger({ name: `${controllerName}-logger` });
@@ -30,16 +30,13 @@ const logger: Logger = new Logger({ name: `${controllerName}-logger` });
 const maxAge =
   Number(process.env.JWT_REFRESH_COOKIE_LIFE_TIME) || 2_592_000_000;
 
-// const this.tokenService = new TokenService();
-// const this.authService = new AuthService();
-
 @JsonController("/auth")
 @Service()
 export class AuthController {
-  constructor(
-    private tokenService: TokenService,
-    private authService: AuthService
-  ) {}
+  @Inject()
+  private tokenService: TokenService;
+  @Inject()
+  private authService: AuthService;
 
   @Post("/register")
   @HttpCode(StatusCodes.CREATED)
