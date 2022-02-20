@@ -2,6 +2,7 @@ import { Course } from "@course/common";
 import { JWTAuthenticate } from "@middlewares/authChecker";
 import { UserInterface } from "@src/interfaces/UserInterface";
 import { CourseService } from "@src/services/CourseService";
+import { StatusCodes } from "http-status-codes";
 import {
   Body,
   CurrentUser,
@@ -12,21 +13,23 @@ import {
   UseBefore,
 } from "routing-controllers";
 import { Logger } from "tslog";
+import { Service } from "typedi";
 
 const controllerName = "course-controller";
 const logger: Logger = new Logger({ name: `${controllerName}-logger` });
 
 @JsonController("/courses")
+@Service()
 export class CourseController {
-  #courseService = new CourseService();
+  constructor(private courseService: CourseService) {}
 
   @Get("/")
   async getAll(): Promise<Course[]> {
     logger.debug("course", "/");
-    return await this.#courseService.getAllCourses();
+    return await this.courseService.getAllCourses();
   }
   @Post("/")
-  @HttpCode(201)
+  @HttpCode(StatusCodes.CREATED)
   @UseBefore(JWTAuthenticate)
   public async createNewCourse(
     @Body() course: Course,
@@ -34,7 +37,7 @@ export class CourseController {
   ): Promise<Course> {
     logger.debug("create new course", user);
 
-    const newCourse = await this.#courseService.createNewCourse(course, user);
+    const newCourse = await this.courseService.createNewCourse(course, user);
     return newCourse;
   }
 }

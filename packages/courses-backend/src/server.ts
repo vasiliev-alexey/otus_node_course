@@ -7,14 +7,17 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { Action, createExpressServer } from "routing-controllers";
+import { Action, createExpressServer, useContainer } from "routing-controllers";
 import { Logger } from "tslog";
+import { Container } from "typedi";
 
 const logger: Logger = new Logger({ name: "server" });
 
 dotenv.config();
 
 const loggerMiddleWare = morgan(process.env.LOGGER_LEVEL || "dev");
+
+useContainer(Container);
 
 // Middleware
 

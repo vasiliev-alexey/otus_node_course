@@ -2,8 +2,10 @@ import { Request, Response } from "express";
 import passport from "passport";
 import { Action, ExpressMiddlewareInterface } from "routing-controllers";
 import { Logger } from "tslog";
+import { Service } from "typedi";
 
 const logger: Logger = new Logger({ name: "auth-checker" });
+
 export const authorizationChecker = (action: Action) =>
   new Promise<boolean>((resolve, reject) => {
     if (action.request.originalUrl === "/auth/login") {
@@ -39,6 +41,7 @@ export const authorizationChecker = (action: Action) =>
     }
   });
 
+@Service()
 export class JWTAuthenticate implements ExpressMiddlewareInterface {
   use(req: Request, res: Response, next?: (err?: Error) => void): void {
     logger.info("Check  user auth");

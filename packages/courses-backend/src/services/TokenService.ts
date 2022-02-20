@@ -2,10 +2,11 @@ import { UserInterface } from "@interfaces/UserInterface";
 import { TokenModel } from "@models/TokenModel";
 import * as jwt from "jsonwebtoken";
 import Process from "process";
+import { Service } from "typedi";
 
 const secretAccessKey = Process.env.JWT_ACCESS_SECRET || "NOT_ASSIGNED_KEY";
 const secretRefreshKey = Process.env.JWT_REFRESH_SECRET || "NOT_ASSIGNED_KEY";
-
+@Service()
 export class TokenService {
   generateTokens(user: UserInterface) {
     const userDto = { username: user.username, id: user.id };

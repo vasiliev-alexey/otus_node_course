@@ -6,6 +6,7 @@ import { AuthService } from "@src/services/AuthService";
 import { TokenService } from "@src/services/TokenService";
 import bcrypt from "bcryptjs";
 import { Response } from "express";
+import { StatusCodes } from "http-status-codes";
 import {
   Authorized,
   BadRequestError,
@@ -21,6 +22,7 @@ import {
   UseBefore,
 } from "routing-controllers";
 import { Logger } from "tslog";
+import { Service } from "typedi";
 
 const controllerName = "auth-controller";
 const logger: Logger = new Logger({ name: `${controllerName}-logger` });
@@ -28,13 +30,19 @@ const logger: Logger = new Logger({ name: `${controllerName}-logger` });
 const maxAge =
   Number(process.env.JWT_REFRESH_COOKIE_LIFE_TIME) || 2_592_000_000;
 
-const tokenService = new TokenService();
-const authService = new AuthService();
+// const this.tokenService = new TokenService();
+// const this.authService = new AuthService();
 
 @JsonController("/auth")
+@Service()
 export class AuthController {
+  constructor(
+    private tokenService: TokenService,
+    private authService: AuthService
+  ) {}
+
   @Post("/register")
-  @HttpCode(201)
+  @HttpCode(StatusCodes.CREATED)
   public async registerNewUser(
     @Body() userCredentials: UserCredentials
   ): Promise<Record<string, never>> {
@@ -65,7 +73,7 @@ export class AuthController {
 
   @Authorized()
   @Post("/login")
-  @HttpCode(200)
+  @HttpCode(StatusCodes.OK)
   public async login(
     @Body() userCredentials: UserCredentials,
     @Res() resp: Response,
@@ -75,8 +83,9 @@ export class AuthController {
       `User ${userCredentials.username} authenticated with entered pass`
     );
 
-    const { accessToken, refreshToken } = tokenService.generateTokens(user);
-    await tokenService.saveToken(user.id, refreshToken);
+    const { accessToken, refreshToken } =
+      this.tokenService.generateTokens(user);
+    await this.tokenService.saveToken(user.id, refreshToken);
 
     resp.cookie("refreshToken", refreshToken, {
       maxAge,
@@ -88,7 +97,7 @@ export class AuthController {
 
   @Get("/logout")
   @UseBefore(JWTAuthenticate)
-  @HttpCode(200)
+  @HttpCode(StatusCodes.OK)
   async logout(
     @Res() res: Response,
     @CookieParam("refreshToken") refreshToken: string
@@ -100,7 +109,7 @@ export class AuthController {
         return {};
       }
 
-      await authService.logout(refreshToken);
+      await this.authService.logout(refreshToken);
       res.clearCookie("refreshToken");
       logger.debug("exit from logout");
       return {};
@@ -118,17 +127,17 @@ export class AuthController {
     if (!refreshToken) {
       throw new UnauthorizedError("Пользователь не авторизован");
     }
-    const userData = await tokenService.validateRefreshToken(refreshToken);
-    const tokenFromDb = await tokenService.findToken(refreshToken);
+    const userData = await this.tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDb = await this.tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
       logger.debug("Пользователь не авторизован", !userData, !tokenFromDb);
       throw new UnauthorizedError("Пользователь не авторизован");
     }
     const user = await UserModel.findById(userData.id);
     const userDto = { username: user.username, id: user.id };
-    const tokens = tokenService.generateTokens({ ...userDto });
+    const tokens = this.tokenService.generateTokens({ ...userDto });
 
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    await this.tokenService.saveToken(userDto.id, tokens.refreshToken);
     resp.cookie("refreshToken", tokens.refreshToken, {
       maxAge,
       httpOnly: true,

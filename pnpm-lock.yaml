@@ -91,6 +91,7 @@ importers:
       ts-node: ^10.4.0
       ts-node-dev: ^1.1.8
       tslog: ^3.3.1
+      typedi: ^0.10.0
     dependencies:
       '@course/common': link:../courses-common
       bcryptjs: 2.4.3
@@ -113,6 +114,7 @@ importers:
       reflect-metadata: 0.1.13
       routing-controllers: 0.9.0_279461c9b8c03a205cdbc4878bc60cf8
       tslog: 3.3.1
+      typedi: 0.10.0
     devDependencies:
       '@types/bcryptjs': 2.4.2
       '@types/body-parser': 1.19.2
@@ -10039,6 +10041,10 @@ packages:
 
   /typedarray/0.0.6:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
+    dev: false
+
+  /typedi/0.10.0:
+    resolution: {integrity: sha512-v3UJF8xm68BBj6AF4oQML3ikrfK2c9EmZUyLOfShpJuItAqVBHWP/KtpGinkSsIiP6EZyyb6Z3NXyW9dgS9X1w==}
     dev: false
 
   /typescript/4.5.4:
