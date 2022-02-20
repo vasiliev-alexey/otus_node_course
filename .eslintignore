@@ -8,3 +8,4 @@ pnpm-lock.yaml
 packages/courses-common/lib/
 
 **/lib/
+packages/courses-backend/public/**

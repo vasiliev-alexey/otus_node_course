@@ -11,15 +11,14 @@
     "allowJs": true,
     "baseUrl": "./",
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
+
     "downlevelIteration": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "composite": true,
 
     "paths": {
-      "@src/*": ["src/*"]
+      "@src/*": ["src/*"],
+      "@css/*": ["public/*"]
     }
   }
 }

@@ -4,9 +4,10 @@ import { authorizationChecker } from "@middlewares/authChecker";
 import { configureWithPassport } from "@src/middlewares/passport";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import express from "express";
+import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import path from "path";
 import { Action, createExpressServer, useContainer } from "routing-controllers";
 import { Logger } from "tslog";
 import { Container } from "typedi";
@@ -62,22 +63,14 @@ mongoose.connect(
 
 // Passport
 configureWithPassport(app);
-app.use(express.static("public"));
-
+//app.use(express.static("public"));
 //static front
+app.use(express.static(path.resolve(__dirname, "..", "public")));
 
-/*
-let basePath = "../../dist/client/dist";
-if (process.env.NODE_ENV === "development") {
-  basePath = "../../..//dist/client/dist/";
-}
-app.use(express.static(path.resolve(__dirname, basePath)));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, basePath, "index.html"));
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.resolve(__dirname, "..", "public", "index.html"));
 });
-*/
-//app.use(serverError);
+
 const server = app;
 
 export default server;

@@ -12,3 +12,5 @@
 
 **/lib/
 **/.pnpm-debug.log
+
+packages/courses-backend/public/**

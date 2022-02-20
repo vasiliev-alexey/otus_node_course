@@ -8,15 +8,7 @@ import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-serv
 import * as path from "path";
 
 const gitRevisionPlugin = new GitRevisionPlugin();
-const envPluginProd = new webpack.EnvironmentPlugin([
-  "REACT_APP_API_KEY",
-  "REACT_APP_AUTHDOMAIN",
-  "REACT_APP_BASEURL",
-  "REACT_APP_PROJECT_ID",
-  "REACT_APP_STORAGEBUCKET",
-  "REACT_APP_MESSAGING_SENDER_ID",
-  "REACT_APP_APP_ID",
-]);
+const envPluginProd = new webpack.EnvironmentPlugin([]);
 
 const envPluginDev = new webpack.EnvironmentPlugin([]);
 
@@ -75,7 +67,7 @@ const webpackConfig = (
   output: {
     path: path.join(
       __dirname,
-      arg.mode === "production" ? "../../dist/tetris" : "dist"
+      arg.mode === "production" ? "../courses-backend/public" : "dist"
     ),
 
     filename: "index.js",
@@ -95,7 +87,7 @@ const webpackConfig = (
             "@babel/preset-env",
             "@babel/preset-typescript",
           ],
-          plugins: ["@babel/plugin-transform-runtime", "@emotion"],
+          plugins: ["@babel/plugin-transform-runtime"],
         },
         exclude: /dist/,
       },
