@@ -42,6 +42,11 @@ jobs:
         run: |
           npm run lint
 
+      - name: Lint check
+        id: LinterS
+        run: |
+          tsc -b  tsconfig.build.json
+
       - name: Run  Jest  T-E-S-T
         id: Jest-Test
         run: |
