@@ -64,7 +64,7 @@ describe("Auth api tests", () => {
       .expect(201);
   });
 
-  it("test on user register twice with unique", async () => {
+  it("test on user register twice with unique username", async () => {
     testLogger.debug("test  auth");
 
     const rndUserCred: UserCredentials = {

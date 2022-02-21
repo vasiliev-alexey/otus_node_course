@@ -43,8 +43,8 @@ jobs:
         run: |
           npm run lint
 
-      - name: Lint check
-        id: LinterS
+      - name: build-ref
+        id: build-ref
         run: |
           tsc -b  tsconfig.build.json
 
