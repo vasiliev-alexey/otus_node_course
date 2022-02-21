@@ -49,7 +49,7 @@ describe("Auth api tests", () => {
     }
   });
 
-  it("test on user register", async () => {
+  it("test on user register bu login and pass", async () => {
     testLogger.debug("test  auth");
 
     const rndUserCred: UserCredentials = {

@@ -6,6 +6,7 @@ on:
       - feature/*
     paths:
       - "packages/tree/**"
+      - "packages/courses-*/**"
   pull_request:
     branches:
       - master
