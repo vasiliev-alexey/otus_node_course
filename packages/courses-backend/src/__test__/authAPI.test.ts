@@ -1,4 +1,4 @@
-import { UserCredentials } from "@course/common";
+import { AuthData, UserCredentials } from "@course/common";
 import { faker } from "@faker-js/faker";
 import { UserModel } from "@models/UserModel";
 import bcrypt from "bcryptjs";
@@ -97,7 +97,10 @@ describe("Auth api tests", () => {
       .send(testAuthUser)
       .expect(200)
       .expect((res) => {
-        expect(res.body.token).not.toBeNull();
+        const response = res.body as AuthData;
+        expect(response).not.toBeNull();
+        expect(response.accessToken).not.toBeNull();
+        expect(response.user).not.toBeNull();
       });
   });
 });

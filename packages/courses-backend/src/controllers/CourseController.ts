@@ -25,9 +25,13 @@ export class CourseController {
   private courseService: CourseService;
 
   @Get("/")
+  @HttpCode(StatusCodes.OK)
   async getAll(): Promise<Course[]> {
     logger.debug("course", "/");
-    return await this.courseService.getAllCourses();
+
+    const data = await this.courseService.getAllCourses();
+
+    return data;
   }
 
   @Post("/")
@@ -37,7 +41,7 @@ export class CourseController {
     @Body() course: Course,
     @CurrentUser() user: UserInterface
   ): Promise<Course> {
-    logger.debug("create new course", user);
+    logger.debug("create new course", course);
 
     const newCourse = await this.courseService.createNewCourse(course, user);
     return newCourse;

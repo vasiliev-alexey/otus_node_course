@@ -24,8 +24,8 @@ useContainer(Container);
 
 const app = createExpressServer({
   controllers: [__dirname + "/controllers/*.ts"], // we specify controllers we want to use
-  // defaultErrorHandler: false,
-  middlewares: [cookieParser()],
+  //defaultErrorHandler: false,
+  middlewares: [cookieParser, loggerMiddleWare],
   classTransformer: false,
   cors: {
     methods: "GET,POST,PATCH,DELETE,OPTIONS",
@@ -42,7 +42,7 @@ const app = createExpressServer({
   },
 });
 // app.use(cookieParser());
-app.use(express.json()).use(loggerMiddleWare);
+//app.use(express.json());
 
 // mongo
 mongoose.connect(
@@ -67,7 +67,7 @@ configureWithPassport(app);
 //static front
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 
-app.get("*", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.sendFile(path.resolve(__dirname, "..", "public", "index.html"));
 });
 

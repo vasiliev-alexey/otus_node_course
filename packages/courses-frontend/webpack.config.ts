@@ -44,11 +44,8 @@ const webpackConfig = (
         "Origin, X-Requested-With, Content-Type, Accept",
     },
     proxy: {
-      "/auth": {
-        target: "http://localhost:4000",
-      },
-      "/courses": {
-        target: "http://localhost:4000",
+      "*": {
+        target: "http://localhost:4000/",
       },
     },
   },

@@ -38,7 +38,10 @@ describe("course API test  suit", () => {
     await newUser.save();
 
     tasks = Array.from(Array(10).keys()).map((_) => {
-      const course = new CourseModel({ title: faker.internet.domainName() });
+      const course = new CourseModel({
+        title: faker.internet.domainName(),
+        description: faker.hacker.abbreviation(),
+      });
       return course.save();
     });
     await Promise.all(tasks);
@@ -92,13 +95,13 @@ describe("course API test  suit", () => {
       .expect(200)
       .expect((res) => {
         expect(res.body.token).not.toBeNull();
-        token = res.body.token;
+        token = res.body.accessToken;
       });
 
     await request(app)
       .post("/courses")
       .set("Authorization", `Bearer ${token}`)
-      .send({ title: fakeCourseName })
+      .send({ title: fakeCourseName, description: fakeCourseName })
       .expect(StatusCodes.CREATED)
       .expect((res) => {
         expect(res.body).toBeInstanceOf(Object);

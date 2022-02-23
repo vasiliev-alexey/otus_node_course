@@ -59,8 +59,8 @@ describe("Auth logout abd refresh test", () => {
       .send(testAuthUser)
       .expect(200)
       .expect((res) => {
-        expect(res.body.token).not.toBeNull();
-        token = res.body.token;
+        expect(res.body.accessToken).not.toBeNull();
+        token = res.body.accessToken;
         cookie = res.headers["set-cookie"];
         expect(cookie).toHaveLength(1);
       });

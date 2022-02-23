@@ -1,4 +1,4 @@
-import { UserCredentials } from "@course/common";
+import { AuthData, UserCredentials } from "@course/common";
 import { UserInterface } from "@interfaces/UserInterface";
 import { JWTAuthenticate } from "@middlewares/authChecker";
 import { UserModel } from "@models/UserModel";
@@ -75,7 +75,7 @@ export class AuthController {
     @Body() userCredentials: UserCredentials,
     @Res() resp: Response,
     @CurrentUser() user: UserInterface
-  ) {
+  ): Promise<AuthData> {
     logger.debug(
       `User ${userCredentials.username} authenticated with entered pass`
     );
@@ -89,7 +89,7 @@ export class AuthController {
       httpOnly: true,
     });
     logger.debug("exit");
-    return { token: accessToken };
+    return { accessToken, user };
   }
 
   @Get("/logout")
@@ -98,18 +98,18 @@ export class AuthController {
   async logout(
     @Res() res: Response,
     @CookieParam("refreshToken") refreshToken: string
-  ): Promise<Record<string, never> | Error> {
+  ): Promise<boolean | Error> {
     logger.debug("User logout");
     try {
       if (!refreshToken) {
         logger.debug("token not found");
-        return {};
+        return false;
       }
 
       await this.authService.logout(refreshToken);
       res.clearCookie("refreshToken");
       logger.debug("exit from logout");
-      return {};
+      return true;
     } catch (e) {
       logger.error(e);
       throw e;

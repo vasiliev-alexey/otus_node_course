@@ -2,7 +2,7 @@ import { Menu } from "antd";
 import React, { Component } from "react";
 
 //import { connect } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../../store/store";
 // import { RouteComponentProps, withRouter } from "react-router-dom";
 
 class ToolBar extends Component<ReturnType<typeof mapStateToProps>> {
@@ -17,8 +17,9 @@ class ToolBar extends Component<ReturnType<typeof mapStateToProps>> {
         theme="dark"
         mode="horizontal"
         onClick={this.#onClick}
+        className="header-toolbar-menu"
       >
-        {true && (
+        {this.props.isAuthenticated && (
           <Menu.Item
             data-testid={"ToolBar-addAdd-data-id"}
             key={"add-ads"}

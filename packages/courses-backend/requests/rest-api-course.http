@@ -22,7 +22,7 @@ Content-Type: application/json
   "password" : "sssss"
 }
 
-> {% client.global.set("auth_token", response.body.token); %}
+> {% client.global.set("auth_token", response.body.accessToken); %}
 
 ###
 

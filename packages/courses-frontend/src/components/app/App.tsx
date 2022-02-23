@@ -1,139 +1,40 @@
 import "@css/index.scss";
 
+import Login from "@src/components/auth/login/Login";
+import { LogOut } from "@src/components/auth/logout/LogOut";
+import SignUp from "@src/components/auth/signup/SignUp";
+import { CourseList } from "@src/components/courses/course-list/CourseList";
 import { SiteHeader } from "@src/components/header/Header";
-import { Avatar, Card, Col, Layout, Row } from "antd";
-import Meta from "antd/es/card/Meta";
+import { store } from "@store/store";
+import { Layout } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import React, { Component } from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 class App extends Component {
   render(): React.ReactElement {
     return (
-      <Layout className="layout">
-        <SiteHeader userName={"s"} isAuthenticated={true} />
+      <BrowserRouter>
+        <Provider store={store}>
+          <Layout className="layout">
+            <SiteHeader />
 
-        <Content className="full">
-          <Row gutter={[20, 20]}>
-            <Col span={8}>
-              <Card
-                bordered={true}
-                style={{ width: "25vw" }}
-                cover={
-                  <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                  />
-                }
-              >
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card
-                bordered={true}
-                style={{ width: "25vw" }}
-                cover={
-                  <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                  />
-                }
-              >
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card
-                bordered={true}
-                style={{ width: "25vw" }}
-                cover={
-                  <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                  />
-                }
-              >
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Card>
-            </Col>
-          </Row>
-          <Row gutter={[20, 20]} className={"row"}>
-            {" "}
-          </Row>
-          <Row gutter={[20, 20]} justify={"center"} align={"middle"}>
-            <Col span={8}>
-              <Card
-                bordered={true}
-                style={{ width: "25vw" }}
-                cover={
-                  <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                  />
-                }
-              >
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card
-                bordered={true}
-                style={{ width: "25vw" }}
-                cover={
-                  <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                  />
-                }
-              >
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card
-                bordered={true}
-                style={{ width: "25vw" }}
-                cover={
-                  <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                  />
-                }
-              >
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Card>
-            </Col>
-          </Row>
-        </Content>
+            <Content className="full">
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<SignUp />} />
+                <Route path="/logout" element={<LogOut />} />
+                <Route path="/" element={<CourseList />} />
+              </Routes>
+            </Content>
 
-        <Footer style={{ textAlign: "center" }} className="footer-2">
-          Мои курсы
-        </Footer>
-      </Layout>
+            <Footer style={{ textAlign: "center" }} className="footer-2">
+              Мои курсы
+            </Footer>
+          </Layout>
+        </Provider>
+      </BrowserRouter>
     );
   }
 }

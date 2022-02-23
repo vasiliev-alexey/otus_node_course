@@ -4,14 +4,22 @@
     "type": "git",
     "url": "git+https://github.com/vasiliev-alexey/otus_react_course.git"
   },
+  "workspaces": [
+    "./packages/*"
+  ],
   "scripts": {
+    "build-ref": "tsc --build tsconfig.build.json",
     "preinstall": "npx only-allow pnpm",
-    "test": "npm run test --workspaces --if-present",
-    "prepare": "husky install",
     "lint": "eslint . && prettier --check .",
-    "lint:fix": "eslint . --fix && prettier --write .",
     "lint-staged": "lint-staged",
-    "build-ref": "tsc --build tsconfig.build.json"
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "prepare": "husky install",
+    "sort": "sort-package-json \"packages/**/package.json\"",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix",
+    "*.{js,ts,md,json,yml,html}": "prettier --write"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
@@ -32,15 +40,9 @@
     "jest": "^27.4.7",
     "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
+    "sort-package-json": "^1.54.0",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
     "typescript": "4.4.4"
-  },
-  "workspaces": [
-    "./packages/*"
-  ],
-  "lint-staged": {
-    "*.{js,ts}": "eslint --fix",
-    "*.{js,ts,md,json,yml,html}": "prettier --write"
   }
 }
