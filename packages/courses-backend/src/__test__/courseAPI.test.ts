@@ -99,7 +99,7 @@ describe("course API test  suit", () => {
       });
 
     await request(app)
-      .post("/courses")
+      .post("/courses/newCourse")
       .set("Authorization", `Bearer ${token}`)
       .send({ title: fakeCourseName, description: fakeCourseName })
       .expect(StatusCodes.CREATED)

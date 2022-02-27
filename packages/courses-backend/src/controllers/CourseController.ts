@@ -10,6 +10,7 @@ import {
   HttpCode,
   JsonController,
   Post,
+  UploadedFile,
   UseBefore,
 } from "routing-controllers";
 import { Logger } from "tslog";
@@ -17,7 +18,6 @@ import { Inject, Service } from "typedi";
 
 const controllerName = "course-controller";
 const logger: Logger = new Logger({ name: `${controllerName}-logger` });
-
 @JsonController("/courses")
 @Service()
 export class CourseController {
@@ -34,14 +34,19 @@ export class CourseController {
     return data;
   }
 
-  @Post("/")
+  @Post("/newCourse")
   @HttpCode(StatusCodes.CREATED)
   @UseBefore(JWTAuthenticate)
   public async createNewCourse(
     @Body() course: Course,
-    @CurrentUser() user: UserInterface
+    @CurrentUser() user: UserInterface,
+    @UploadedFile("icon") file: Express.Multer.File
   ): Promise<Course> {
-    logger.debug("create new course", course);
+    logger.debug("create new course", course, file);
+
+    if (file) {
+      course.imageString = file.buffer.toString("base64");
+    }
 
     const newCourse = await this.courseService.createNewCourse(course, user);
     return newCourse;

@@ -2,6 +2,7 @@ import "reflect-metadata";
 
 import { authorizationChecker } from "@middlewares/authChecker";
 import { configureWithPassport } from "@src/middlewares/passport";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
@@ -65,6 +66,7 @@ mongoose.connect(
 configureWithPassport(app);
 //app.use(express.static("public"));
 //static front
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 
 app.get("/", (req: Request, res: Response) => {

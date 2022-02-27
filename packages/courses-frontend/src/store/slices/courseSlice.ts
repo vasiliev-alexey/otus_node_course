@@ -14,6 +14,22 @@ export const getAllCourses = createAsyncThunk<Course[]>(
     }
   }
 );
+export const createNewCourse = createAsyncThunk<
+  void,
+  { course: Course; file: File }
+>(
+  `${rootActionName}/newCourse`,
+
+  async (req: { course: Course; file: File }, thunkApi) => {
+    try {
+      const { course, file } = req;
+      const _response = await CourseService.createNewCourse(course, file);
+      return;
+    } catch (e) {
+      return thunkApi.rejectWithValue({ errorMessage: e.message });
+    }
+  }
+);
 
 export interface CoursesStateType {
   courses: Course[];

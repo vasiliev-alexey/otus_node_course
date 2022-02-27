@@ -15,6 +15,10 @@ const courseModel = SchemaFactory<Course>({
     maxlength: 200,
     required: true,
   },
+  imageString: {
+    type: String,
+    required: false,
+  },
 
   author: {
     type: Schema.Types.ObjectId,

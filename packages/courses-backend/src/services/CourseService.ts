@@ -18,6 +18,7 @@ export class CourseService {
         id: course.id,
         authorName: course.authorName,
         description: course.description,
+        imageString: course.imageString,
       };
     });
 
@@ -27,8 +28,10 @@ export class CourseService {
   async createNewCourse(course: Course, user: UserInterface): Promise<Course> {
     const newCourse = await CourseModel.create({
       ...course,
+
       author: user,
     });
+    await newCourse.save();
     return newCourse;
   }
 }

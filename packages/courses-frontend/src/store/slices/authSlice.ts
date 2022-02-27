@@ -1,4 +1,4 @@
-import { User, UserCredentials } from "@course/common";
+import { AuthData, User, UserCredentials } from "@course/common";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "@src/services/AuthService";
 const rootActionName = "auth";
@@ -31,16 +31,13 @@ export const logout = createAsyncThunk<boolean>(
   }
 );
 
-export const registerNewUser = createAsyncThunk<
-  { token: string },
-  UserCredentials
->(
+export const registerNewUser = createAsyncThunk<AuthData, UserCredentials>(
   `${rootActionName}/registerNewUser`,
 
   async (credentials, thunkApi) => {
     try {
       const data = await AuthService.registration(credentials);
-      return data.data.user;
+      return data.data;
     } catch (e) {
       return thunkApi.rejectWithValue({ errorMessage: e.message });
     }
@@ -83,9 +80,9 @@ const authSlice = createSlice({
       state.isAuth = false;
     });
     builder.addCase(registerNewUser.fulfilled, (state, action) => {
-      const { token } = action.payload;
+      const { accessToken } = action.payload;
       state.isAuth = true;
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", accessToken);
     });
     builder.addCase(logout.pending, (state) => {
       state.isAuth = false;
