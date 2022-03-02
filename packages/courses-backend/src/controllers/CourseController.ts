@@ -56,9 +56,9 @@ export class CourseController {
   @Get("/:id")
   @HttpCode(StatusCodes.OK)
   @UseBefore(JWTAuthenticate)
-  public async getOne(@Param("id") id: string): Promise<Course> {
+  public async getOne(@Param("id") id: string): Promise<Course | null> {
     logger.debug("GetCourseById", id);
     const newCourse = await this.courseService.GetCourseById(id);
-    return newCourse!;
+    return newCourse;
   }
 }

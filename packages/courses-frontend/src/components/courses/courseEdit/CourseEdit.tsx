@@ -1,22 +1,19 @@
 import { UploadOutlined } from "@ant-design/icons";
+import { courseSelector } from "@store/selectors/selectors";
 import { createNewCourse, getCourseById } from "@store/slices/courseSlice";
 import { Button, Form, FormInstance, Input, message, Upload } from "antd";
 import { UploadFile } from "antd/es/upload/interface";
 import { UploadChangeParam } from "antd/lib/upload/interface";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { RootState } from "@store/store";
-import { courseSelector, coursesSelector } from "@store/selectors/selectors";
 
 const CourseEdit = () => {
   const dispatch = useDispatch();
   const formRef = React.createRef<FormInstance>();
   let fileData: UploadFile[];
 
-  let { id } = useParams();
-
-  console.log("id", id);
+  const { id } = useParams();
 
   useEffect(() => {
     dispatch(getCourseById(id));

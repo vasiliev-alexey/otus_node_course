@@ -3,9 +3,9 @@ import { LogOut } from "@src/components/auth/logout/LogOut";
 import SignUp from "@src/components/auth/signup/SignUp";
 import { CourseList } from "@src/components/courses/course-list/CourseList";
 import CourseCard from "@src/components/courses/CourseCard/CourseCard";
+import CourseEdit from "@src/components/courses/courseEdit/CourseEdit";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import CourseEdit from "@src/components/courses/courseEdit/CourseEdit";
 
 const AppRouter = () => {
   return (
