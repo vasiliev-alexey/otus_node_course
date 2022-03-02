@@ -9,6 +9,7 @@ import {
   Get,
   HttpCode,
   JsonController,
+  Param,
   Post,
   UploadedFile,
   UseBefore,
@@ -50,5 +51,14 @@ export class CourseController {
 
     const newCourse = await this.courseService.createNewCourse(course, user);
     return newCourse;
+  }
+
+  @Get("/:id")
+  @HttpCode(StatusCodes.OK)
+  @UseBefore(JWTAuthenticate)
+  public async getOne(@Param("id") id: string): Promise<Course> {
+    logger.debug("GetCourseById", id);
+    const newCourse = await this.courseService.GetCourseById(id);
+    return newCourse!;
   }
 }

@@ -23,4 +23,8 @@ export default class CourseService {
       },
     });
   }
+
+  static async getCourse(id: string): Promise<AxiosResponse<Course>> {
+    return axiosClient.get<Course>(`/courses/${id}`);
+  }
 }

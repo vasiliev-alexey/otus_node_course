@@ -1,15 +1,28 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { createNewCourse } from "@store/slices/courseSlice";
-import { Button, Form, Input, message, Upload } from "antd";
+import { createNewCourse, getCourseById } from "@store/slices/courseSlice";
+import { Button, Form, FormInstance, Input, message, Upload } from "antd";
 import { UploadFile } from "antd/es/upload/interface";
 import { UploadChangeParam } from "antd/lib/upload/interface";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { RootState } from "@store/store";
+import { courseSelector, coursesSelector } from "@store/selectors/selectors";
 
-const CourseCard = () => {
+const CourseEdit = () => {
   const dispatch = useDispatch();
-
+  const formRef = React.createRef<FormInstance>();
   let fileData: UploadFile[];
+
+  let { id } = useParams();
+
+  console.log("id", id);
+
+  useEffect(() => {
+    dispatch(getCourseById(id));
+  }, [id]);
+
+  const data = useSelector(courseSelector);
 
   const onFinish = async (values: Record<string, unknown>) => {
     dispatch(
@@ -48,9 +61,16 @@ const CourseCard = () => {
     },
   };
 
+  if (!formRef) {
+    formRef.current.setFieldsValue({
+      title: data.title,
+    });
+  }
+
   return (
     <Form
       name="newCourse"
+      ref={formRef}
       labelCol={{
         span: 8,
       }}
@@ -58,7 +78,7 @@ const CourseCard = () => {
         span: 8,
       }}
       initialValues={{
-        remember: true,
+        title: data?.title,
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -117,4 +137,4 @@ const CourseCard = () => {
   );
 };
 
-export default CourseCard;
+export default CourseEdit;

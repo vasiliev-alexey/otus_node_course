@@ -31,8 +31,22 @@ export const createNewCourse = createAsyncThunk<
   }
 );
 
+export const getCourseById = createAsyncThunk<Course, string>(
+  `${rootActionName}/getCourse`,
+
+  async (id: string, thunkApi) => {
+    try {
+      const _response = await CourseService.getCourse(id);
+      return _response.data;
+    } catch (e) {
+      return thunkApi.rejectWithValue({ errorMessage: e.message });
+    }
+  }
+);
+
 export interface CoursesStateType {
   courses: Course[];
+  currentCourse?: Course;
 }
 
 const initialState: CoursesStateType = {
@@ -52,6 +66,16 @@ const authSlice = createSlice({
     });
     builder.addCase(getAllCourses.fulfilled, (state, action) => {
       state.courses = action.payload;
+    });
+
+    builder.addCase(getCourseById.pending, (state) => {
+      state.courses = [];
+    });
+    builder.addCase(getCourseById.rejected, (state) => {
+      state.courses = [];
+    });
+    builder.addCase(getCourseById.fulfilled, (state, action) => {
+      state.currentCourse = action.payload;
     });
   },
 

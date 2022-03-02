@@ -34,4 +34,10 @@ export class CourseService {
     await newCourse.save();
     return newCourse;
   }
+
+  async GetCourseById(id: string): Promise<Course | null> {
+    const course = await CourseModel.findById(id).exec();
+
+    return course;
+  }
 }

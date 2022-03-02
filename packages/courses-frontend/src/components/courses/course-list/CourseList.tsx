@@ -1,13 +1,16 @@
 import { EditOutlined } from "@ant-design/icons";
-import { courseSelector } from "@store/selectors/selectors";
+import { coursesSelector } from "@store/selectors/selectors";
 import { getAllCourses } from "@store/slices/courseSlice";
 import { Avatar, Card, Col, Row, Tooltip } from "antd";
 import Meta from "antd/es/card/Meta";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const CourseList = () => {
-  const data = useSelector(courseSelector);
+  const navigate = useNavigate();
+
+  const data = useSelector(coursesSelector);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCourses());
@@ -40,7 +43,10 @@ export const CourseList = () => {
                     title="Редактировать курс"
                     arrowPointAtCenter
                   >
-                    <EditOutlined key="edit" />
+                    <EditOutlined
+                      key="edit"
+                      onClick={() => navigate(`/course/${c.id}`)}
+                    />
                   </Tooltip>,
                 ]}
               >
