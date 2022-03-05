@@ -6,13 +6,17 @@
   "bin": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "tsc -b",
     "start": "node dist/src/index.js -d 2 ..",
     "ts-start": "ts-node  src/index.ts  -d 4 ./src"
   },
   "dependencies": {
     "commander": "^8.3.0"
+  },
+  "devDependencies": {
+    "mock-fs": "^5.1.2",
+    "@types/mock-fs": "^4.13.1"
   },
   "keywords": [],
   "author": "",
