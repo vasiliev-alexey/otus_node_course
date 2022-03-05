@@ -1,6 +1,5 @@
-import { Logger, TLogLevelName } from "tslog"; // eslint-disable-line import/named
-
 import { config } from "dotenv";
+import { Logger, TLogLevelName } from "tslog"; // eslint-disable-line import/named
 config();
 
 console.log("process.env.DEBUG_LEVEL", process.env.DEBUG_LEVEL);

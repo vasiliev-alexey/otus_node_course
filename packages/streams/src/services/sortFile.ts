@@ -1,7 +1,7 @@
-import fs from "fs";
 import esort from "external-sorting";
-
+import fs from "fs";
 import path from "path";
+
 import { rootLogger } from "./logger";
 
 const logger = rootLogger.getChildLogger({

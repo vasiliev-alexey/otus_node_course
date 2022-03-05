@@ -1,0 +1,33 @@
+POST http://localhost:4000/courses/
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "title": {{$randomInt}}
+}
+
+<> 2022-02-05T190215.200.json
+<> 2022-02-05T190214.200.json
+<> 2022-02-05T190213-1.200.json
+<> 2022-02-05T190213.200.json
+<> 2022-02-05T190152.200.json
+
+###
+# Для авторизации
+POST http://localhost:4000/auth/login
+Content-Type: application/json
+
+{
+  "username": "dddff",
+  "password" : "sssss"
+}
+
+> {% client.global.set("auth_token", response.body.accessToken); %}
+
+###
+
+GET http://localhost:4000/courses/
+Authorization: Bearer {{auth_token}}
+
+<> 2022-02-05T190232.200.json
+

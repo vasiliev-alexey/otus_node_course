@@ -1,0 +1,21 @@
+{
+  "name": "@course/common",
+  "version": "1.0.0",
+  "description": "tetris game engine",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
+  "files": [
+    "lib/**/*",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "compile": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^16.0.0"
+  }
+}

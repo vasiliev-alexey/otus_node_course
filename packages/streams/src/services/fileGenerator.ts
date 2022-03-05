@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as Path from "path";
+import path from "path";
 
 import { CONTENT_LENGTH } from "../types";
-import path from "path";
 import { rootLogger } from "./logger";
 
 const logger = rootLogger.getChildLogger({

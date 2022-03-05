@@ -6,6 +6,7 @@ on:
       - feature/*
     paths:
       - "packages/tree/**"
+      - "packages/courses-*/**"
   pull_request:
     branches:
       - master
@@ -15,6 +16,11 @@ jobs:
   lint_and_test:
     runs-on: ubuntu-20.04
     environment: Build
+    env:
+      JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+      JWT_REFRESH_COOKIE_LIFE_TIME: ${{ secrets.JWT_REFRESH_COOKIE_LIFE_TIME }}
+      JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+      SECRET_SESSION_KEY: ${{ secrets.SECRET_SESSION_KEY }}
 
     steps:
       - name: Checkout
@@ -41,6 +47,11 @@ jobs:
         id: LinterS
         run: |
           npm run lint
+
+      - name: build-ref
+        id: build-ref
+        run: |
+          tsc -b  tsconfig.build.json
 
       - name: Run  Jest  T-E-S-T
         id: Jest-Test

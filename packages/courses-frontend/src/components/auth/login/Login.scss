@@ -1,0 +1,80 @@
+.login-center {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background: rgba(167, 177, 226, 0.29);
+  height: 25%;
+  width: 30%;
+  padding-top: 20px;
+}
+
+#login-form {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+.login-form-field::placeholder {
+  color: #3a3a3a;
+}
+
+.login-form-field {
+  border: none;
+  border-bottom: 1px solid #3a3a3a;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  outline: none;
+  padding: 0px 0px 5px 5px;
+}
+
+.login-form-error {
+  max-width: 350px;
+  background: #e33333;
+
+  margin: 10px;
+}
+
+.action-input {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#login-form-reset {
+  background-color: red;
+}
+
+.action-btn {
+  width: 100%;
+}
+
+.ant-form-item {
+  margin-bottom: 0;
+}
+
+//.login-enter-label {
+//  width: 90%;
+//  align-self: center;
+//  padding-top: 10px;
+//}
+//
+
+//.login-form  {
+//  max-width: 300px;
+//  background: #000066;
+//}
+//#normal-login .login-form-forgot {
+//  float: right;
+//}
+//#normal-login .ant-col-rtl .login-form-forgot {
+//  float: left;
+//}
+//#normal-login .login-form-button {
+//  width: 100%;
+//}

@@ -1,7 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
-import { NodeItem } from "../types";
 import * as Path from "path";
+
+import { NodeItem } from "../types";
 
 export default async function walk(directory: string, level: number) {
   const rootItem: NodeItem = {
