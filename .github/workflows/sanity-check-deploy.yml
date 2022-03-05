@@ -58,6 +58,15 @@ jobs:
         run: |
           npm run test --coverage
 
+      - name: Upload Code Coverage
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          name: codecov-umbrella
+          directory: ./packages/tree/coverage
+          fail_ci_if_error: true
+          verbose: true
+
       - name: "Send telegram notification"
         if: ${{ always() }}
         uses: appleboy/telegram-action@master

@@ -3,10 +3,9 @@ import { NodeItem } from "../types";
 let dirCount = 0;
 let fileCount = 0;
 
-const printerInternal = (item: NodeItem, level = 0): void => {
+const printerInternal = (item: NodeItem, level: number): void => {
   const nodeImg = item.items ? "📁" : "└";
-  // eslint-disable-next-line  no-console
-  console.log(`${"│ ".repeat(level)}${nodeImg}  ${item.name}`);
+  console.info(`${"│ ".repeat(level)}${nodeImg}  ${item.name}`);
   if (item.items) {
     dirCount++;
     const nextLevel = level + 1;
@@ -21,6 +20,5 @@ export const printer = (item: NodeItem): void => {
   dirCount = 0;
   fileCount = 0;
   printerInternal(item, 0);
-  // eslint-disable-next-line  no-console
-  console.log(`\n📁 ${dirCount} directories, 💾 ${fileCount} files `);
+  console.info(`\n📁 ${dirCount} directories, 💾 ${fileCount} files `);
 };
