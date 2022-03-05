@@ -11,10 +11,14 @@
   "scripts": {
     "build": "tsc -b",
     "start": "node dist/src/index.js -d 2 ..",
-    "test": "jest",
+    "test": "jest --coverage",
     "ts-start": "ts-node  src/index.ts  -d 4 ./src"
   },
   "dependencies": {
     "commander": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/mock-fs": "^4.13.1",
+    "mock-fs": "^5.1.2"
   }
 }
