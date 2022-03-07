@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "external-sorting": "^1.2.1",
-    "tslog": "^3.3.1"
+    "tslog": "^3.3.1",
+    "dotenv": "^16.0.0"
   }
 }
