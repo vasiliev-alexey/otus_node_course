@@ -2,15 +2,14 @@
   "name": "ws-notification",
   "version": "1.0.0",
   "description": "Работа с технологией Web Sockets",
-  "scripts": {
-    "start_dev": "ts-node-dev --project  tsconfig.json   src/server.ts"
-  },
-  "proxy": "http://localhost:3000",
   "keywords": [
     "express soccket.io"
   ],
-  "author": "vasiliev-alexey",
   "license": "ISC",
+  "author": "vasiliev-alexey",
+  "scripts": {
+    "start_dev": "ts-node-dev --project  tsconfig.json   src/server.ts"
+  },
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
