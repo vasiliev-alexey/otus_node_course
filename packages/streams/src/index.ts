@@ -1,9 +1,10 @@
-import { generateBigFile } from "./services/fileGenerator";
 import Path from "path";
-import { splitFile } from "./services/splitFile";
+
+import { generateBigFile } from "./services/fileGenerator";
+import { rootLogger } from "./services/logger";
 import { readAndFind } from "./services/readAndFind";
 import { sortFiles } from "./services/sortFile";
-import { rootLogger } from "./services/logger";
+import { splitFile } from "./services/splitFile";
 
 const logger = rootLogger.getChildLogger({
   name: "main-logger",

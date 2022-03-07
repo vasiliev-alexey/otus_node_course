@@ -1,8 +1,9 @@
 import { program } from "commander";
-import pkg from "../../package.json";
-import walk from "./walk";
 import Path from "path";
+
+import pkg from "../../package.json";
 import { printer } from "./printer";
+import walk from "./walk";
 
 const appName = pkg.name;
 

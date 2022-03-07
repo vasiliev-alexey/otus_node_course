@@ -1,5 +1,6 @@
-import walk from "./walk";
 import mockfs from "mock-fs";
+
+import walk from "./walk";
 
 describe("test node tree structure", () => {
   afterEach(() => {

@@ -9,6 +9,8 @@
 **/.env
 **/*.tgz
 
-**/data/**
-!**/.gitkeep
 
+**/lib/
+**/.pnpm-debug.log
+
+packages/courses-backend/public/**

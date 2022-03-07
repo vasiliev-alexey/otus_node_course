@@ -1,7 +1,7 @@
 import * as fs from "fs";
+import { ReadStream } from "fs";
 import Path from "path";
 
-import { ReadStream } from "fs";
 import { MAX_INT_DIGIT } from "../types";
 import { rootLogger } from "./logger";
 

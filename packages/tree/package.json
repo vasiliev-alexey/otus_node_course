@@ -2,23 +2,23 @@
   "name": "otus-node-tree",
   "version": "1.0.0",
   "description": "Tree structure browser",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "dist/src/index.js",
-  "bin": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "bin": "dist/src/index.js",
   "scripts": {
-    "test": "jest --coverage",
     "build": "tsc -b",
     "start": "node dist/src/index.js -d 2 ..",
+    "test": "jest --coverage",
     "ts-start": "ts-node  src/index.ts  -d 4 ./src"
   },
   "dependencies": {
     "commander": "^8.3.0"
   },
   "devDependencies": {
-    "mock-fs": "^5.1.2",
-    "@types/mock-fs": "^4.13.1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "@types/mock-fs": "^4.13.1",
+    "mock-fs": "^5.1.2"
+  }
 }
