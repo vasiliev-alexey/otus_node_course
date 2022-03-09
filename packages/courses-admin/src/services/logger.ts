@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { Logger, TLogLevelName } from "tslog"; // eslint-disable-line import/named
+import { Logger, TLogLevelName } from "tslog";
 config();
 
 export const rootLogger: Logger = new Logger({

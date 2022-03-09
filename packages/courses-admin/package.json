@@ -1,0 +1,32 @@
+{
+  "name": "courses-admin-cli",
+  "version": "1.0.0",
+  "description": "Admin cli tool",
+  "keywords": [],
+  "license": "ISC",
+  "author": "vasiliev-alexey",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": "dist/src/index.js",
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node dist/src/index.js -d 2 ..",
+    "ts-start": "ts-node  src/index.ts  -d 4 ./src"
+  },
+  "dependencies": {
+    "@course/common": "1.0.0",
+    "axios": "^0.26.0",
+    "colors": "^1.4.0",
+    "commander": "^8.3.0",
+    "dotenv": "^15.0.0",
+    "inquirer": "^8.2.0",
+    "lokijs": "^1.5.12",
+    "tslog": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^8.2.0",
+    "@types/lokijs": "^1.5.7",
+    "@types/mock-fs": "^4.13.1",
+    "mock-fs": "^5.1.2"
+  }
+}
