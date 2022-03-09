@@ -21,8 +21,6 @@ export class CourseService {
         imageString: course.imageString,
       };
     });
-
-    //return courses;
   }
 
   async createNewCourse(course: Course, user: UserInterface): Promise<Course> {
@@ -33,6 +31,14 @@ export class CourseService {
     });
     await newCourse.save();
     return newCourse;
+  }
+
+  async editCourse(course: Course): Promise<Course | null> {
+    const doc = await CourseModel.findOneAndUpdate({ _id: course.id }, course, {
+      new: true,
+      useFindAndModify: false,
+    }).exec();
+    return doc;
   }
 
   async GetCourseById(id: string): Promise<Course | null> {

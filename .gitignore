@@ -14,3 +14,4 @@
 **/.pnpm-debug.log
 
 packages/courses-backend/public/**
+**/*.db
