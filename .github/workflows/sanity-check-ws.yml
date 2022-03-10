@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - ws-notification
+    paths:
+      - "packages/ws-notification/**"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "packages/ws-notification/**"
+
+jobs:
+  lint_and_test:
+    runs-on: ubuntu-20.04
+    environment: Build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+      - name: Checkout LFS objects
+        run: git lfs checkout
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+          run_install: true
+
+      - name: Lint check
+        id: LinterS
+        run: |
+          npm run lint
+
+      - name: "Send telegram notification"
+        if: ${{ always() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_TO }}
+          token: ${{ secrets.TG_TOKEN }}
+          message: |
+            ${{ (job.status == 'success' && '✅' ) || '⛔'}} repository: ${{ github.repository }}
+            Задание: Билд
+            status: ${{job.status}} ${{ (job.status == 'success' && '🚀 🦉 🚀' ) || '🔥🔥 ⛔ 🔥🔥'}}
