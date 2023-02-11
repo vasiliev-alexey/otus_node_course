@@ -53,6 +53,24 @@ export class CourseController {
     return newCourse;
   }
 
+  @Post("/editCourse")
+  @HttpCode(StatusCodes.OK)
+  @UseBefore(JWTAuthenticate)
+  public async editCourse(
+    @Body() course: Course,
+    @CurrentUser() user: UserInterface,
+    @UploadedFile("icon") file: Express.Multer.File
+  ): Promise<Course | null> {
+    logger.debug("edit course", course);
+
+    if (file) {
+      course.imageString = file.buffer.toString("base64");
+    }
+
+    const newCourse = await this.courseService.editCourse(course);
+    return newCourse;
+  }
+
   @Get("/:id")
   @HttpCode(StatusCodes.OK)
   @UseBefore(JWTAuthenticate)

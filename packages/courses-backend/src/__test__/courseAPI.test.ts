@@ -110,4 +110,48 @@ describe("course API test  suit", () => {
         expect(newCourse.id).not.toBeNull();
       });
   });
+
+  it("save edit api by post request", async () => {
+    testLogger.debug("test edit post request");
+
+    let token = "";
+
+    await request(app)
+      .post("/auth/login")
+      .set("Accept", "application/json")
+      .send(testAuthUser)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.token).not.toBeNull();
+        token = res.body.accessToken;
+      });
+
+    const courses = await CourseModel.find({}).limit(1).exec();
+    const course = courses[0];
+    expect(course).not.toBeNull();
+    if (course) {
+      testLogger.debug("course", course);
+
+      const newTitle = faker.hacker.phrase();
+      const newDesc = faker.hacker.abbreviation();
+
+      await request(app)
+        .post("/courses/editCourse")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: newTitle,
+          id: course.id,
+          description: newDesc,
+        })
+        .expect(StatusCodes.OK)
+        .expect((res) => {
+          expect(res.body).toBeInstanceOf(Object);
+          const newCourse = res.body as Course;
+          expect(newCourse.title).toEqual(newTitle);
+          expect(newCourse.description).toEqual(newDesc);
+          expect(newCourse.id).not.toBeNull();
+          expect(newCourse.id).toEqual(course.id);
+        });
+    }
+  });
 });
